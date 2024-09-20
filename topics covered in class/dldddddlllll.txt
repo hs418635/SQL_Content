@@ -1,0 +1,76 @@
+
+
+mysql> -- using ddl commands ---> create, alter , drop , truncate , (modify , rename)
+mysql> create database batch_3;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| acer               |
+| adv                |
+| batch_3            |
+| clauses            |
+| csv                |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| home               |
+| india              |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| pract              |
+| practice           |
+| practice1          |
+| python             |
+| storedp            |
+| string_operation   |
+| sys                |
+| test               |
++--------------------+
+24 rows in set (0.00 sec)
+
+mysql> use batch_3;
+Database changed
+mysql> show tables;
+Empty set (0.01 sec)
+
+mysql> create table product
+    -> (prd_id int ,prd_name varhcar(50), brand varchar(50));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'varhcar(50), brand varchar(50))' at line 2
+mysql> create table product
+    -> (prd_id int ,prd_name varchar(50), brand varchar(50));
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> describe product;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| prd_id   | int         | YES  |     | NULL    |       |
+| prd_name | varchar(50) | YES  |     | NULL    |       |
+| brand    | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into product
+    -> values
+    -> (1,"acer_nitro5","acer"),
+    -> (2,"galaxy_s7","samsung");
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from product;
++--------+-------------+---------+
+| prd_id | prd_name    | brand   |
++--------+-------------+---------+
+|      1 | acer_nitro5 | acer    |
+|      2 | galaxy_s7   | samsung |
++--------+-------------+---------+
+2 rows in set (0.00 sec)
+
+mysql>

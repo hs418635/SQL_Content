@@ -1,0 +1,96 @@
+mysql> create database Window_functions;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use Window_functions;
+Database changed
+mysql> create table test_data(new_id int(5),new_cat varchar(30));
+Query OK, 0 rows affected, 1 warning (0.06 sec)
+
+mysql> insert into test_data
+    -> values
+    -> (100,'Agni'),(200,'Agni'),
+    -> (500,'Dharti')^C
+mysql> insert into test_data
+    -> values
+    -> (100,'Table'),(200,'Table'),
+    -> (500,'Chair'),(700,'Chair'),
+    -> (200,'Sofa'),(300,'Sofa'),(500,'sofa');
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from test_data;
++--------+---------+
+| new_id | new_cat |
++--------+---------+
+|    100 | Table   |
+|    200 | Table   |
+|    500 | Chair   |
+|    700 | Chair   |
+|    200 | Sofa    |
+|    300 | Sofa    |
+|    500 | sofa    |
++--------+---------+
+7 rows in set (0.00 sec)
+
+mysql> -- performing window aggregate funtions
+mysql> SELECT new_id,new_cat,
+    -> SUM(new_id) OVER(PARTITION BY new_cat ORDER BY new_id) AS "Total",
+    -> AVG(new_id) OVER(PARTITION BY new_cat ORDER BY new_id) AS "Average",
+    -> COUNT(new_id) OVER(PARTITION BY new_cat ORDER BY new_id) AS "Count",
+    -> MIN(new_id) OVER(PARTITION BY new_cat ORDER BY new_id) AS "Min",
+    -> MAX(new_id) OVER(PARTITION BY new_cat ORDER BY new_id) AS "Max"
+    -> FROM test_data;
++--------+---------+-------+----------+-------+------+------+
+| new_id | new_cat | Total | Average  | Count | Min  | Max  |
++--------+---------+-------+----------+-------+------+------+
+|    500 | Chair   |   500 | 500.0000 |     1 |  500 |  500 |
+|    700 | Chair   |  1200 | 600.0000 |     2 |  500 |  700 |
+|    200 | Sofa    |   200 | 200.0000 |     1 |  200 |  200 |
+|    300 | Sofa    |   500 | 250.0000 |     2 |  200 |  300 |
+|    500 | sofa    |  1000 | 333.3333 |     3 |  200 |  500 |
+|    100 | Table   |   100 | 100.0000 |     1 |  100 |  100 |
+|    200 | Table   |   300 | 150.0000 |     2 |  100 |  200 |
++--------+---------+-------+----------+-------+------+------+
+7 rows in set (0.01 sec)
+
+mysql> -- Performing Window Ranking Function ( Row_num , Rank , dense_rank , Percent_rank)
+mysql> SELECT new_id,
+    -> ROW_NUMBER() OVER(ORDER BY new_id) AS "ROW_NUMBER",
+    -> RANK() OVER(ORDER BY new_id) AS "RANK",
+    -> DENSE_RANK() OVER(ORDER BY new_id) AS "DENSE_RANK",
+    -> PERCENT_RANK() OVER(ORDER BY new_id) AS "PERCENT_RANK"
+    -> FROM test_data;
++--------+------------+------+------------+---------------------+
+| new_id | ROW_NUMBER | RANK | DENSE_RANK | PERCENT_RANK        |
++--------+------------+------+------------+---------------------+
+|    100 |          1 |    1 |          1 |                   0 |
+|    200 |          2 |    2 |          2 | 0.16666666666666666 |
+|    200 |          3 |    2 |          2 | 0.16666666666666666 |
+|    300 |          4 |    4 |          3 |                 0.5 |
+|    500 |          5 |    5 |          4 |  0.6666666666666666 |
+|    500 |          6 |    5 |          4 |  0.6666666666666666 |
+|    700 |          7 |    7 |          5 |                   1 |
++--------+------------+------+------------+---------------------+
+7 rows in set (0.01 sec)
+
+mysql> -- Performing Window Analytic Functions (First_value , Last_value , Lead, Lag)
+mysql> SELECT new_id,
+    -> FIRST_VALUE(new_id) OVER(ORDER BY new_id) AS "FIRST_VALUE",
+    -> LAST_VALUE(new_id) OVER(ORDER BY new_id) AS "LAST_VALUE",
+    -> LEAD(new_id) OVER(ORDER BY new_id) AS "LEAD",
+    -> LAG(new_id) OVER(ORDER BY new_id) AS "LAG"
+    -> FROM test_data;
++--------+-------------+------------+------+------+
+| new_id | FIRST_VALUE | LAST_VALUE | LEAD | LAG  |
++--------+-------------+------------+------+------+
+|    100 |         100 |        100 |  200 | NULL |
+|    200 |         100 |        200 |  200 |  100 |
+|    200 |         100 |        200 |  300 |  200 |
+|    300 |         100 |        300 |  500 |  200 |
+|    500 |         100 |        500 |  500 |  300 |
+|    500 |         100 |        500 |  700 |  500 |
+|    700 |         100 |        700 | NULL |  500 |
++--------+-------------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql>

@@ -1,0 +1,56 @@
+mysql> create table Customers
+    -> (id int, name varchar(50));
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> insert into Customers
+    -> values
+    -> (1,'Joe'),
+    -> (2,'Henry'),
+    -> (3,'Sam'),
+    -> (4,'Max');
+Query OK, 4 rows affected (0.05 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from Customers;
++------+-------+
+| id   | name  |
++------+-------+
+|    1 | Joe   |
+|    2 | Henry |
+|    3 | Sam   |
+|    4 | Max   |
++------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table Orders
+    -> (id int, Customer_id int);
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> insert into Orders
+    -> values
+    -> (1,3),
+    -> (2,1);
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from Orders;
++------+-------------+
+| id   | Customer_id |
++------+-------------+
+|    1 |           3 |
+|    2 |           1 |
++------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select id,name from Customers
+    -> where id not in (select distinct Customers_id from Orders);
+ERROR 1054 (42S22): Unknown column 'Customers_id' in 'field list'
+mysql> select id,name from Customers
+    -> where id not in (select distinct Customer_id from Orders);
++------+-------+
+| id   | name  |
++------+-------+
+|    2 | Henry |
+|    4 | Max   |
++------+-------+
+2 rows in set (0.03 sec)

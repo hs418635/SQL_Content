@@ -1,0 +1,293 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 87
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show tables;
+ERROR 1046 (3D000): No database selected
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| information_schema |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+10 rows in set (0.00 sec)
+
+mysql> use clauses;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_clauses |
++-------------------+
+| emp1              |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from emp1;
++--------+-----------+------+----------+-----------+--------+
+| emp_id | name      | age  | city     | country   | salary |
++--------+-----------+------+----------+-----------+--------+
+|      1 | Sekhar    |   65 | Indore   | India     | 10000  |
+|      2 | himanshu  |    6 | bhopal   | India     | 20000  |
+|      3 | akki      |    5 | jabalpur | India     | 15000  |
+|      4 | Kunal     |   15 | patna    | India     | 15520  |
+|      5 | Sunny     |    6 | Indore   | USA       | 11000  |
+|      6 | Rohit     |   10 | jabalpur | Australia | 12500  |
+|      7 | kk        |   65 | Indore   | India     | 12500  |
+|      8 | sunju     |    6 | bhopal   | India     | 10000  |
+|      9 | vini      |    5 | jabalpur | India     | 20000  |
+|     10 | abhilasha |   15 | sohagpur | India     | 25000  |
++--------+-----------+------+----------+-----------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select salary from emp1 limit4;
++--------+
+| salary |
++--------+
+| 10000  |
+| 20000  |
+| 15000  |
+| 15520  |
+| 11000  |
+| 12500  |
+| 12500  |
+| 10000  |
+| 20000  |
+| 25000  |
++--------+
+10 rows in set (0.00 sec)
+
+mysql> select salary from emp1 limit 4;
++--------+
+| salary |
++--------+
+| 10000  |
+| 20000  |
+| 15000  |
+| 15520  |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> select sum(salary) from emp1 group by emp_id;
++-------------+
+| sum(salary) |
++-------------+
+|       10000 |
+|       20000 |
+|       15000 |
+|       15520 |
+|       11000 |
+|       12500 |
+|       12500 |
+|       10000 |
+|       20000 |
+|       25000 |
++-------------+
+10 rows in set (0.00 sec)
+
+mysql> select sum(salary) from emp1 group by name;
++-------------+
+| sum(salary) |
++-------------+
+|       10000 |
+|       20000 |
+|       15000 |
+|       15520 |
+|       11000 |
+|       12500 |
+|       12500 |
+|       10000 |
+|       20000 |
+|       25000 |
++-------------+
+10 rows in set (0.00 sec)
+
+mysql> select sum(salary) from emp1 group by age;
++-------------+
+| sum(salary) |
++-------------+
+|       22500 |
+|       41000 |
+|       35000 |
+|       40520 |
+|       12500 |
++-------------+
+5 rows in set (0.00 sec)
+
+mysql> select sum(salary) from emp1 group by city;
++-------------+
+| sum(salary) |
++-------------+
+|       33500 |
+|       30000 |
+|       47500 |
+|       15520 |
+|       25000 |
++-------------+
+5 rows in set (0.00 sec)
+
+mysql> select sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> emp_id;
++--------------+----------------+----------------+-----------------+
+| total_salary | maximum_salary | minimum_salary | Total_employees |
++--------------+----------------+----------------+-----------------+
+|        10000 | 10000          | 10000          |               1 |
+|        20000 | 20000          | 20000          |               1 |
+|        15000 | 15000          | 15000          |               1 |
+|        15520 | 15520          | 15520          |               1 |
+|        11000 | 11000          | 11000          |               1 |
+|        12500 | 12500          | 12500          |               1 |
+|        12500 | 12500          | 12500          |               1 |
+|        10000 | 10000          | 10000          |               1 |
+|        20000 | 20000          | 20000          |               1 |
+|        25000 | 25000          | 25000          |               1 |
++--------------+----------------+----------------+-----------------+
+10 rows in set (0.00 sec)
+
+mysql> select sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> age;
++--------------+----------------+----------------+-----------------+
+| total_salary | maximum_salary | minimum_salary | Total_employees |
++--------------+----------------+----------------+-----------------+
+|        22500 | 12500          | 10000          |               2 |
+|        41000 | 20000          | 10000          |               3 |
+|        35000 | 20000          | 15000          |               2 |
+|        40520 | 25000          | 15520          |               2 |
+|        12500 | 12500          | 12500          |               1 |
++--------------+----------------+----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> city;
++--------------+----------------+----------------+-----------------+
+| total_salary | maximum_salary | minimum_salary | Total_employees |
++--------------+----------------+----------------+-----------------+
+|        33500 | 12500          | 10000          |               3 |
+|        30000 | 20000          | 10000          |               2 |
+|        47500 | 20000          | 12500          |               3 |
+|        15520 | 15520          | 15520          |               1 |
+|        25000 | 25000          | 25000          |               1 |
++--------------+----------------+----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select name,sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> age;
+
+IN ABOVE QUERY ---> HERE IT IS GIVING ERROR BECAUSE IN FIRST COLUMN WE ARE FETCHING NAME BUT GROUPING BY AGE ... 
+
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'clauses.emp1.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select city,sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> age;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'clauses.emp1.city' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select emp_id,sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> age;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'clauses.emp1.emp_id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+
+HERE NOW DOING CORRECT GORUPING ,,, SELECTING NAME AND GROUPING THAT TO
+mysql> select name,sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> name;
++-----------+--------------+----------------+----------------+-----------------+
+| name      | total_salary | maximum_salary | minimum_salary | Total_employees |
++-----------+--------------+----------------+----------------+-----------------+
+| Sekhar    |        10000 | 10000          | 10000          |               1 |
+| himanshu  |        20000 | 20000          | 20000          |               1 |
+| akki      |        15000 | 15000          | 15000          |               1 |
+| Kunal     |        15520 | 15520          | 15520          |               1 |
+| Sunny     |        11000 | 11000          | 11000          |               1 |
+| Rohit     |        12500 | 12500          | 12500          |               1 |
+| kk        |        12500 | 12500          | 12500          |               1 |
+| sunju     |        10000 | 10000          | 10000          |               1 |
+| vini      |        20000 | 20000          | 20000          |               1 |
+| abhilasha |        25000 | 25000          | 25000          |               1 |
++-----------+--------------+----------------+----------------+-----------------+
+10 rows in set (0.00 sec)
+
+mysql> select age,sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> age;
++------+--------------+----------------+----------------+-----------------+
+| age  | total_salary | maximum_salary | minimum_salary | Total_employees |
++------+--------------+----------------+----------------+-----------------+
+|   65 |        22500 | 12500          | 10000          |               2 |
+|    6 |        41000 | 20000          | 10000          |               3 |
+|    5 |        35000 | 20000          | 15000          |               2 |
+|   15 |        40520 | 25000          | 15520          |               2 |
+|   10 |        12500 | 12500          | 12500          |               1 |
++------+--------------+----------------+----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select city,sum(salary) as total_salary,
+    -> Max(salary) as maximum_salary,
+    -> min(salary) as minimum_salary,
+    -> Count(emp_id) as Total_employees
+    -> from emp1
+    -> group by
+    -> city;
++----------+--------------+----------------+----------------+-----------------+
+| city     | total_salary | maximum_salary | minimum_salary | Total_employees |
++----------+--------------+----------------+----------------+-----------------+
+| Indore   |        33500 | 12500          | 10000          |               3 |
+| bhopal   |        30000 | 20000          | 10000          |               2 |
+| jabalpur |        47500 | 20000          | 12500          |               3 |
+| patna    |        15520 | 15520          | 15520          |               1 |
+| sohagpur |        25000 | 25000          | 25000          |               1 |
++----------+--------------+----------------+----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql>

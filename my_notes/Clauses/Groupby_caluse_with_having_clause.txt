@@ -1,0 +1,76 @@
+mysql> use clauses;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_clauses |
++-------------------+
+| emp1              |
+| emp2              |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> use emp2;
+ERROR 1049 (42000): Unknown database 'emp2'
+mysql> select * from emp2;
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+| emp_id | emp_name        | age  | gender | doj        | dept      | city        | salary   |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+|      1 | John Doe        |   30 | Male   | 2020-01-01 | IT        | New York    | 60000.00 |
+|      2 | Jane Smith      |   15 | Female | 2015-01-20 | HR        | Ahmadabad   | 55000.00 |
+|      5 | steve Smith     |   10 | Female | 2018-01-10 | marketing | Los Angeles | 55000.00 |
+|      8 | Rohit sharma    |   25 | Female | 2013-06-15 | Sales     | Mumbai      | 55000.00 |
+|     10 | bumrah          |   15 | Female | 2019-10-15 | marketing | Los Angeles | 35000.00 |
+|     15 | virat kohli     |   25 | Male   | 2019-04-13 | HR        | Los Angeles | 55000.00 |
+|     19 | md shami        |   30 | Male   | 2019-03-05 | media     | Banglore    |  5000.00 |
+|     20 | rohit sharma    |   26 | Male   | 2014-10-15 | Medical   | Delhi       | 12000.00 |
+|     25 | bhuvi           |   90 | Female | 2019-07-15 | Sales     | Bhopal      | 90000.00 |
+|     30 | Jane Smith      |   50 | Male   | 2019-03-05 | Sales     | Los Angeles | 85000.00 |
+|     35 | siraj           |   35 | Male   | 2019-03-20 | HR        | Los Angeles |  9500.00 |
+|     38 | mitchel Johnson |   32 | Female | 2021-10-10 | Finance   | Indore      | 70000.00 |
+|     40 | kedar jadav     |  100 | Male   | 2010-09-28 | marketing | Indore      | 25000.00 |
+|     62 | virat kohli     |   28 | Female | 2019-06-15 | HR        | Mumbai      | 12000.00 |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+14 rows in set (0.00 sec)
+
+mysql> -- Group by with Having Clause
+mysql> select count(emp_id) as total_employees , sum(salary) as Total_salary from emp2
+    -> where dept in ('sales','marketing')
+    -> group by dept;
++-----------------+--------------+
+| total_employees | Total_salary |
++-----------------+--------------+
+|               3 |    115000.00 |
+|               3 |    230000.00 |
++-----------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select count(emp_id) as total_employees , sum(salary) as Total_salary from emp2
+    -> where dept in ('sales','marketing')
+    -> group by dept
+    -> having sum(salary)>100000;
++-----------------+--------------+
+| total_employees | Total_salary |
++-----------------+--------------+
+|               3 |    115000.00 |
+|               3 |    230000.00 |
++-----------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select count(emp_id) as total_employees , sum(salary) as Total_salary from emp2
+    -> where dept in ('sales','marketing')
+    -> group by dept
+    -> having sum(salary)>250000;
+Empty set (0.00 sec)
+
+mysql> select count(emp_id) as total_employees , sum(salary) as Total_salary from emp2
+    -> where dept in ('sales','marketing')
+    -> group by dept
+    -> having sum(salary)>200000;
++-----------------+--------------+
+| total_employees | Total_salary |
++-----------------+--------------+
+|               3 |    230000.00 |
++-----------------+--------------+
+1 row in set (0.00 sec)
+
+mysql>

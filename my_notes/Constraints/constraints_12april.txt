@@ -1,0 +1,136 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 20
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| adv                |
+| clauses            |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| performance_schema |
+| python             |
+| storedp            |
+| string_operation   |
+| sys                |
+| test               |
++--------------------+
+14 rows in set (0.01 sec)
+
+mysql> use test;
+Database changed
+mysql> using all data types and constraints
+    -> ^C
+mysql> create table student(id int primary key, name varchar(50) not null, email_id varchar(50) unique, age int check (age>=18),
+    ->                      city varchar(50) default 'indore', pscore float , cscore double , mscore decimal);
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> describe student;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| id       | int           | NO   | PRI | NULL    |       |
+| name     | varchar(50)   | NO   |     | NULL    |       |
+| email_id | varchar(50)   | YES  | UNI | NULL    |       |
+| age      | int           | YES  |     | NULL    |       |
+| city     | varchar(50)   | YES  |     | indore  |       |
+| pscore   | float         | YES  |     | NULL    |       |
+| cscore   | double        | YES  |     | NULL    |       |
+| mscore   | decimal(10,0) | YES  |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> insert into student
+    -> values
+    -> (1,"shivam","shivam@gmail.com",50,"colambo",81.12345678987654321,50.12345678987654321,90.12345678987654321);
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> selct * from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selct * from student' at line 1
+mysql> select * from student;
++----+--------+------------------+------+---------+---------+-------------------+--------+
+| id | name   | email_id         | age  | city    | pscore  | cscore            | mscore |
++----+--------+------------------+------+---------+---------+-------------------+--------+
+|  1 | shivam | shivam@gmail.com |   50 | colambo | 81.1235 | 50.12345678987654 |     90 |
++----+--------+------------------+------+---------+---------+-------------------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into student
+    -> values
+    -> (2,"abc","abc@gmail.com",80,81.12345678987654321,50.12345678987654321,90.12345678987654321);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into student
+    -> (id,name,age)
+    -> values
+    -> (2,"rohit",32);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++----+--------+------------------+------+---------+---------+-------------------+--------+
+| id | name   | email_id         | age  | city    | pscore  | cscore            | mscore |
++----+--------+------------------+------+---------+---------+-------------------+--------+
+|  1 | shivam | shivam@gmail.com |   50 | colambo | 81.1235 | 50.12345678987654 |     90 |
+|  2 | rohit  | NULL             |   32 | indore  |    NULL |              NULL |   NULL |
++----+--------+------------------+------+---------+---------+-------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> alter table student modify id int  auto_increment;
+Query OK, 2 rows affected (0.17 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> describe student;
++----------+---------------+------+-----+---------+----------------+
+| Field    | Type          | Null | Key | Default | Extra          |
++----------+---------------+------+-----+---------+----------------+
+| id       | int           | NO   | PRI | NULL    | auto_increment |
+| name     | varchar(50)   | NO   |     | NULL    |                |
+| email_id | varchar(50)   | YES  | UNI | NULL    |                |
+| age      | int           | YES  |     | NULL    |                |
+| city     | varchar(50)   | YES  |     | indore  |                |
+| pscore   | float         | YES  |     | NULL    |                |
+| cscore   | double        | YES  |     | NULL    |                |
+| mscore   | decimal(10,0) | YES  |     | NULL    |                |
++----------+---------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> insert into student
+    -> (name,age)
+    -> values
+    -> ("hardik",2);
+ERROR 3819 (HY000): Check constraint 'student_chk_1' is violated.
+mysql> insert into student
+    -> (name,age)
+    -> ("hardik",28);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"hardik",28)' at line 3
+mysql> insert into student
+    -> (name,age)
+    -> values
+    -> ("hardik",28);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++----+--------+------------------+------+---------+---------+-------------------+--------+
+| id | name   | email_id         | age  | city    | pscore  | cscore            | mscore |
++----+--------+------------------+------+---------+---------+-------------------+--------+
+|  1 | shivam | shivam@gmail.com |   50 | colambo | 81.1235 | 50.12345678987654 |     90 |
+|  2 | rohit  | NULL             |   32 | indore  |    NULL |              NULL |   NULL |
+|  3 | hardik | NULL             |   28 | indore  |    NULL |              NULL |   NULL |
++----+--------+------------------+------+---------+---------+-------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql>

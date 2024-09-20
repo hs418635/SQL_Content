@@ -1,0 +1,68 @@
+-- Multiple entries in a single column at once writing single sql query
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+
+| id   | email_id         | age  | st_name  | address  | dept       |
++------+------------------+------+----------+----------+------------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         |
++------+------------------+------+----------+----------+------------+
+
+-- step 1) Add a new column to the table
+
+mysql> alter table student1 ADD state varchar(50);
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+-------+
+| id   | email_id         | age  | st_name  | address  | dept       | state |
++------+------------------+------+----------+----------+------------+-------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         | NULL  |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         | NULL  |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical | NULL  |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      | NULL  |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         | NULL  |
++------+------------------+------+----------+----------+------------+-------+
+
+-- writing query to multiple data in a single column at once using single query
+
+mysql> update student1
+    -> set state=
+    -> case
+    -> when id=6 then "mp"
+    -> when id=5 then "up"
+    -> when id=7 then "haryana"
+    -> when id=9 then "Punjab"
+    -> when id=10 then "DL"
+    -> ELSE
+    -> state END
+    -> where id in(5,6,7,9,10);
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+---------+
+| id   | email_id         | age  | st_name  | address  | dept       | state   |
++------+------------------+------+----------+----------+------------+---------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         | up      |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         | mp      |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical | haryana |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      | Punjab  |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         | DL      |
++------+------------------+------+----------+----------+------------+---------+
+
+-- Multiple entries in a single row using single query
+
+mysql> update student1
+    -> set age=25,dept="Data Science",email_id="hs418635@gmail.com"
+    -> where id=5;
+
+mysql> select * from student1;
++------+--------------------+------+----------+----------+--------------+---------+
+| id   | email_id           | age  | st_name  | address  | dept         | state   |
++------+--------------------+------+----------+----------+--------------+---------+
+|    5 | hs418635@gmail.com |   25 | himanshu | bhopal   | Data Science | up      |
+|    6 | hsks@gmail.com     |    6 | kk       | indore   | IT           | mp      |
+|    7 | kjsks@gmail.com    |    8 | sjs      | jabalpur | mechanical   | haryana |
+|    9 | sun@gmail.com      |   52 | aman     | pune     | Sales        | Punjab  |
+|   10 | amulya@gmail.com   |   26 | aman     | pune     | IT           | DL      |
++------+--------------------+------+----------+----------+--------------+---------+

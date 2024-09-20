@@ -1,0 +1,40 @@
+
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_joins |
++-----------------+
+| city            |
+| student         |
++-----------------+
+2 rows in set (0.00 sec)
+
+mysql> create table dept( dept_id int auto_increment primary key,Dname varchar(50));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> describe dept;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| dept_id | int         | NO   | PRI | NULL    | auto_increment |
+| Dname   | varchar(50) | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> create table teacher(tid int auto_increment primary key, tname varchar(50) , dept int not null,
+    -> foreign key(dept) references dept(dept_id));
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> describe teacher;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| tid   | int         | NO   | PRI | NULL    | auto_increment |
+| tname | varchar(50) | YES  |     | NULL    |                |
+| dept  | int         | NO   | MUL | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql>

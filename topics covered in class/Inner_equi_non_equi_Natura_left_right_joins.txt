@@ -1,0 +1,166 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 25
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+12 rows in set (0.01 sec)
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| business           |
+| city               |
+| class              |
+| class_info         |
+| college            |
+| dept               |
+| library_department |
+| personal           |
+| professional       |
+| student            |
+| teacher            |
++--------------------+
+11 rows in set (0.01 sec)
+
+mysql> select * from personal;
++----+--------------+--------------+----------+
+| id | name         | address      | contact  |
++----+--------------+--------------+----------+
+|  1 | John Doe     | 123 Main St  | 555-1212 |
+|  2 | Jane Smith   | 456 Elm St   | 555-2323 |
+|  3 | Bob Johnson  | 789 Oak St   | 555-3434 |
+|  4 | Alice Brown  | 101 Park Ave | 555-4545 |
+|  5 | David Miller | 202 Pine St  | 555-5656 |
+|  6 | Emily Davis  | 303 Maple St | 555-6767 |
++----+--------------+--------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from professional;
++----+----------------------+------------+
+| id | work                 | department |
++----+----------------------+------------+
+|  1 | Software Engineer    | IT         |
+|  2 | Marketing Manager    | Marketing  |
+|  3 | Accountant           | Finance    |
+|  4 | Graphic Designer     | Creative   |
+|  5 | Sales Representative | Sales      |
++----+----------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select name,work,department from personal p  inner join professional p1
+    -> on
+    -> p.id = p1.id;
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
++--------------+----------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select name,work,department from personal p, professional p1
+    -> where
+    -> p.id = p1.id;
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
++--------------+----------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select name,work,department from personal p, professional p1
+    -> where
+    -> p.id < p1.id;
++-------------+----------------------+------------+
+| name        | work                 | department |
++-------------+----------------------+------------+
+| John Doe    | Marketing Manager    | Marketing  |
+| John Doe    | Accountant           | Finance    |
+| Jane Smith  | Accountant           | Finance    |
+| John Doe    | Graphic Designer     | Creative   |
+| Jane Smith  | Graphic Designer     | Creative   |
+| Bob Johnson | Graphic Designer     | Creative   |
+| John Doe    | Sales Representative | Sales      |
+| Jane Smith  | Sales Representative | Sales      |
+| Bob Johnson | Sales Representative | Sales      |
+| Alice Brown | Sales Representative | Sales      |
++-------------+----------------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select name,work,department from personal p natural join professional p1;
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
++--------------+----------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select name,work,department from personal p  left join professional p1
+    -> on
+    -> p.id = p1.id;
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
+| Emily Davis  | NULL                 | NULL       |
++--------------+----------------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select name,work,department from personal p  right join professional p1
+    -> on
+    -> p.id = p1.id;
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
++--------------+----------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql>

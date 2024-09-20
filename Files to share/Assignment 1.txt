@@ -1,0 +1,30 @@
+Students Complete the assignment Question.
+ 
+Revise all the fundamental concepts first that are covered till now 
+
+Then 
+
+Practice DDL commands :
+
+Q1) create employee table with 4 column
+Q2) Rename the table name
+Q3) Add 2 extra columns to the table
+Q4) Rename any two column names
+Q5) Swap the columns position
+Q6) Modify the data types
+Q7) Drop any one column
+
+
+Practice DML commands :
+
+Q1) insert the values into the employee table that you created
+Q2) Again add one extra column to the table and insert the values in that new
+    new column, by using UPDATE command
+Q3) Again rename any two values using UPDATE COMMAND in the table.
+Q4) Use DELETE command and delete any two records from the table.
+
+Perform the following operators in the employee table
+---> AND, OR , NOT , IN , LIKE , NOT Like , Not in 
+---> ALL, ANY/SOME 
+
+

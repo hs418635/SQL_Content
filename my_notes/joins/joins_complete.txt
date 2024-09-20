@@ -1,0 +1,156 @@
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| business           |
+| city               |
+| college            |
+| dept               |
+| library_department |
+| personal           |
+| players            |
+| players_state      |
+| professional       |
+| student            |
+| teacher            |
++--------------------+
+11 rows in set (0.00 sec)
+
+mysql> select * from players;
++----+----------+----------+
+| id | name     | city     |
++----+----------+----------+
+|  1 | virat    | Banglore |
+|  2 | Rohit    | Mumbai   |
+|  3 | hardik   | gujrat   |
+|  4 | shreyash | kolkata  |
++----+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from players_state;
++----+-------+
+| id | state |
++----+-------+
+|  1 | MP    |
+|  2 | UP    |
+|  3 | AP    |
+|  8 | DL    |
++----+-------+
+4 rows in set (0.00 sec)
+
+-- cross join
+mysql> select * from players p cross join players_state p1;
++----+----------+----------+----+-------+
+| id | name     | city     | id | state |
++----+----------+----------+----+-------+
+|  4 | shreyash | kolkata  |  1 | MP    |
+|  3 | hardik   | gujrat   |  1 | MP    |
+|  2 | Rohit    | Mumbai   |  1 | MP    |
+|  1 | virat    | Banglore |  1 | MP    |
+|  4 | shreyash | kolkata  |  2 | UP    |
+|  3 | hardik   | gujrat   |  2 | UP    |
+|  2 | Rohit    | Mumbai   |  2 | UP    |
+|  1 | virat    | Banglore |  2 | UP    |
+|  4 | shreyash | kolkata  |  3 | AP    |
+|  3 | hardik   | gujrat   |  3 | AP    |
+|  2 | Rohit    | Mumbai   |  3 | AP    |
+|  1 | virat    | Banglore |  3 | AP    |
+|  4 | shreyash | kolkata  |  8 | DL    |
+|  3 | hardik   | gujrat   |  8 | DL    |
+|  2 | Rohit    | Mumbai   |  8 | DL    |
+|  1 | virat    | Banglore |  8 | DL    |
++----+----------+----------+----+-------+
+16 rows in set (0.00 sec)
+
+-- inner join with equijoin
+mysql> select * from players p inner join players_state p1
+    -> on p.id = p1.id;
++----+--------+----------+----+-------+
+| id | name   | city     | id | state |
++----+--------+----------+----+-------+
+|  1 | virat  | Banglore |  1 | MP    |
+|  2 | Rohit  | Mumbai   |  2 | UP    |
+|  3 | hardik | gujrat   |  3 | AP    |
++----+--------+----------+----+-------+
+3 rows in set (0.00 sec)
+
+-- inner join with non-equijoin
+mysql> select * from players p inner join players_state p1
+    -> on p.id < p1.id;
++----+----------+----------+----+-------+
+| id | name     | city     | id | state |
++----+----------+----------+----+-------+
+|  1 | virat    | Banglore |  2 | UP    |
+|  1 | virat    | Banglore |  3 | AP    |
+|  2 | Rohit    | Mumbai   |  3 | AP    |
+|  1 | virat    | Banglore |  8 | DL    |
+|  2 | Rohit    | Mumbai   |  8 | DL    |
+|  3 | hardik   | gujrat   |  8 | DL    |
+|  4 | shreyash | kolkata  |  8 | DL    |
++----+----------+----------+----+-------+
+7 rows in set (0.00 sec)
+
+-- Natural join
+mysql> select * from players p natural join players_state p1;
++----+--------+----------+-------+
+| id | name   | city     | state |
++----+--------+----------+-------+
+|  1 | virat  | Banglore | MP    |
+|  2 | Rohit  | Mumbai   | UP    |
+|  3 | hardik | gujrat   | AP    |
++----+--------+----------+-------+
+3 rows in set (0.00 sec)
+
+-- Outer Join
+-- left outer join
+mysql> select * from players p left join players_state p1
+    -> on p.id = p1.id;
++----+----------+----------+------+-------+
+| id | name     | city     | id   | state |
++----+----------+----------+------+-------+
+|  1 | virat    | Banglore |    1 | MP    |
+|  2 | Rohit    | Mumbai   |    2 | UP    |
+|  3 | hardik   | gujrat   |    3 | AP    |
+|  4 | shreyash | kolkata  | NULL | NULL  |
++----+----------+----------+------+-------+
+4 rows in set (0.00 sec)
+
+-- Right outer join
+mysql> select * from players p right join players_state p1
+    -> on p.id = p1.id;
++------+--------+----------+----+-------+
+| id   | name   | city     | id | state |
++------+--------+----------+----+-------+
+|    1 | virat  | Banglore |  1 | MP    |
+|    2 | Rohit  | Mumbai   |  2 | UP    |
+|    3 | hardik | gujrat   |  3 | AP    |
+| NULL | NULL   | NULL     |  8 | DL    |
++------+--------+----------+----+-------+
+4 rows in set (0.00 sec)
+
+-- Full outer join
+mysql> select * from players p left join players_state p1 on p.id = p1.id
+    -> union
+    -> select * from players p right join players_state p1 on p.id = p1.id;
++------+----------+----------+------+-------+
+| id   | name     | city     | id   | state |
++------+----------+----------+------+-------+
+|    1 | virat    | Banglore |    1 | MP    |
+|    2 | Rohit    | Mumbai   |    2 | UP    |
+|    3 | hardik   | gujrat   |    3 | AP    |
+|    4 | shreyash | kolkata  | NULL | NULL  |
+| NULL | NULL     | NULL     |    8 | DL    |
++------+----------+----------+------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from players p cross join players_state p1 on p.id = p1.id;
++----+--------+----------+----+-------+
+| id | name   | city     | id | state |
++----+--------+----------+----+-------+
+|  1 | virat  | Banglore |  1 | MP    |
+|  2 | Rohit  | Mumbai   |  2 | UP    |
+|  3 | hardik | gujrat   |  3 | AP    |
++----+--------+----------+----+-------+
+3 rows in set (0.00 sec)

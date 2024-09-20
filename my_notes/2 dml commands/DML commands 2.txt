@@ -1,0 +1,189 @@
+
+mysql> use overall;
+Database changed
+
+mysql> show tables;
++-------------------+
+| Tables_in_overall |
++-------------------+
+| student1          |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+
+| id   | email_id         | age  | st_name  | address  | dept       |
++------+------------------+------+----------+----------+------------+
+|    5 | abc@gmail.com    |    3 | himanshu | bpl      | HR         |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical |
+|    9 | sun@gmail.com    |   52 | aman     | delhi    | Sales      |
+|   10 | amulya@gmail.com |   26 | aman     | indore   | IT         |
+|   12 | mehul@gmail.com  |   25 | Mehul    | jabalpur | DS         |
++------+------------------+------+----------+----------+------------+
+6 rows in set (0.01 sec)
+
+mysql> update student1
+    -> set address="bhopal"
+    -> where id=5;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+
+| id   | email_id         | age  | st_name  | address  | dept       |
++------+------------------+------+----------+----------+------------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical |
+|    9 | sun@gmail.com    |   52 | aman     | delhi    | Sales      |
+|   10 | amulya@gmail.com |   26 | aman     | indore   | IT         |
+|   12 | mehul@gmail.com  |   25 | Mehul    | jabalpur | DS         |
++------+------------------+------+----------+----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> update student1
+    -> set address="pune"
+    -> where st_name="aman";
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+
+| id   | email_id         | age  | st_name  | address  | dept       |
++------+------------------+------+----------+----------+------------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         |
+|   12 | mehul@gmail.com  |   25 | Mehul    | jabalpur | DS         |
++------+------------------+------+----------+----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> delete from student1 where id=12;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+
+| id   | email_id         | age  | st_name  | address  | dept       |
++------+------------------+------+----------+----------+------------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         |
++------+------------------+------+----------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table student1 add state varchar(50);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+-------+
+| id   | email_id         | age  | st_name  | address  | dept       | state |
++------+------------------+------+----------+----------+------------+-------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         | NULL  |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         | NULL  |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical | NULL  |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      | NULL  |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         | NULL  |
++------+------------------+------+----------+----------+------------+-------+
+5 rows in set (0.00 sec)
+
+
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+-------+
+| id   | email_id         | age  | st_name  | address  | dept       | state |
++------+------------------+------+----------+----------+------------+-------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         | NULL  |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         | NULL  |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical | NULL  |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      | NULL  |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         | NULL  |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       | mp    |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       | up    |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       | mh    |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       | ap    |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       | dl    |
++------+------------------+------+----------+----------+------------+-------+
+10 rows in set (0.00 sec)
+
+mysql> alter table student1 drop state;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+
+| id   | email_id         | age  | st_name  | address  | dept       |
++------+------------------+------+----------+----------+------------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       |
+| NULL | NULL             | NULL | NULL     | NULL     | NULL       |
++------+------------------+------+----------+----------+------------+
+10 rows in set (0.00 sec)
+
+
+mysql> delete from student1
+    -> WHERE ID IS NULL;
+Query OK, 5 rows affected (0.01 sec)
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+
+| id   | email_id         | age  | st_name  | address  | dept       |
++------+------------------+------+----------+----------+------------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         |
++------+------------------+------+----------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table student1 add state varchar(50);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+-------+
+| id   | email_id         | age  | st_name  | address  | dept       | state |
++------+------------------+------+----------+----------+------------+-------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         | NULL  |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         | NULL  |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical | NULL  |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      | NULL  |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         | NULL  |
++------+------------------+------+----------+----------+------------+-------+
+5 rows in set (0.00 sec)
+
+
+mysql> update student1
+    -> set state="mp"
+    -> where st_name='aman';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from student1;
++------+------------------+------+----------+----------+------------+-------+
+| id   | email_id         | age  | st_name  | address  | dept       | state |
++------+------------------+------+----------+----------+------------+-------+
+|    5 | abc@gmail.com    |    3 | himanshu | bhopal   | HR         | NULL  |
+|    6 | hsks@gmail.com   |    6 | kk       | indore   | IT         | NULL  |
+|    7 | kjsks@gmail.com  |    8 | sjs      | jabalpur | mechanical | NULL  |
+|    9 | sun@gmail.com    |   52 | aman     | pune     | Sales      | mp    |
+|   10 | amulya@gmail.com |   26 | aman     | pune     | IT         | mp    |
++------+------------------+------+----------+----------+------------+-------+
+5 rows in set (0.00 sec)
+
+mysql>exexit

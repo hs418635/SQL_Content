@@ -1,0 +1,137 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 95
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| information_schema |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+10 rows in set (0.01 sec)
+
+mysql> use clauses;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_clauses |
++-------------------+
+| emp1              |
+| emp2              |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from emp2;
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+| emp_id | emp_name        | age  | gender | doj        | dept      | city        | salary   |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+|      1 | John Doe        |   30 | Male   | 2020-01-01 | IT        | New York    | 60000.00 |
+|      2 | Jane Smith      |   15 | Female | 2019-03-15 | HR        | Ahmadabad   | 55000.00 |
+|      5 | steve Smith     |   10 | Female | 2019-03-16 | marketing | Los Angeles | 55000.00 |
+|      8 | Rohit sharma    |   25 | Female | 2019-03-15 | Sales     | Mumbai      | 55000.00 |
+|     10 | bumrah          |   15 | Female | 2019-10-15 | marketing | Los Angeles | 35000.00 |
+|     15 | virat kohli     |   25 | Male   | 2019-04-13 | HR        | Los Angeles | 55000.00 |
+|     19 | md shami        |   30 | Male   | 2019-03-05 | media     | Banglore    |  5000.00 |
+|     20 | rohit sharma    |   26 | Male   | 2019-03-11 | Medical   | Delhi       | 12000.00 |
+|     25 | bhuvi           |   90 | Female | 2019-07-15 | Sales     | Bhopal      | 90000.00 |
+|     30 | Jane Smith      |   50 | Male   | 2019-03-05 | Sales     | Los Angeles | 85000.00 |
+|     35 | siraj           |   35 | Male   | 2019-03-20 | HR        | Los Angeles |  9500.00 |
+|     38 | mitchel Johnson |   32 | Female | 2021-10-10 | Finance   | Indore      | 70000.00 |
+|     40 | kedar jadav     |  100 | Male   | 2019-08-25 | marketing | Indore      | 25000.00 |
+|     62 | virat kohli     |   28 | Female | 2019-06-15 | HR        | Mumbai      | 12000.00 |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+14 rows in set (0.00 sec)
+
+mysql> -- count the employees with similar department and with similar joining year
+mysql> update emp2
+    -> set doj=
+    -> case
+    -> when emp_id=2 then "2015-01-20"
+    -> when emp_id=5 then "2018-01-10"
+    -> when emp_id=8 then "2013-06-15"
+    -> when emp_id=20 then "2014-10-15"
+    -> when emp_id=40 then "2010-09-28"
+    -> else
+    -> doj end
+    -> where emp_id in(2,5,8,20,40);
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from emp2;
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+| emp_id | emp_name        | age  | gender | doj        | dept      | city        | salary   |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+|      1 | John Doe        |   30 | Male   | 2020-01-01 | IT        | New York    | 60000.00 |
+|      2 | Jane Smith      |   15 | Female | 2015-01-20 | HR        | Ahmadabad   | 55000.00 |
+|      5 | steve Smith     |   10 | Female | 2018-01-10 | marketing | Los Angeles | 55000.00 |
+|      8 | Rohit sharma    |   25 | Female | 2013-06-15 | Sales     | Mumbai      | 55000.00 |
+|     10 | bumrah          |   15 | Female | 2019-10-15 | marketing | Los Angeles | 35000.00 |
+|     15 | virat kohli     |   25 | Male   | 2019-04-13 | HR        | Los Angeles | 55000.00 |
+|     19 | md shami        |   30 | Male   | 2019-03-05 | media     | Banglore    |  5000.00 |
+|     20 | rohit sharma    |   26 | Male   | 2014-10-15 | Medical   | Delhi       | 12000.00 |
+|     25 | bhuvi           |   90 | Female | 2019-07-15 | Sales     | Bhopal      | 90000.00 |
+|     30 | Jane Smith      |   50 | Male   | 2019-03-05 | Sales     | Los Angeles | 85000.00 |
+|     35 | siraj           |   35 | Male   | 2019-03-20 | HR        | Los Angeles |  9500.00 |
+|     38 | mitchel Johnson |   32 | Female | 2021-10-10 | Finance   | Indore      | 70000.00 |
+|     40 | kedar jadav     |  100 | Male   | 2010-09-28 | marketing | Indore      | 25000.00 |
+|     62 | virat kohli     |   28 | Female | 2019-06-15 | HR        | Mumbai      | 12000.00 |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+14 rows in set (0.00 sec)
+
+mysql> -- count the employees with similar department and with similar joinig year
+mysql> select count(emp_id) as total_employees, dept , year(doj) from emp2
+    -> group by dept,year(doj);
++-----------------+-----------+-----------+
+| total_employees | dept      | year(doj) |
++-----------------+-----------+-----------+
+|               1 | IT        |      2020 |
+|               1 | HR        |      2015 |
+|               1 | marketing |      2018 |
+|               1 | Sales     |      2013 |
+|               1 | marketing |      2019 |
+|               3 | HR        |      2019 |
+|               1 | media     |      2019 |
+|               1 | Medical   |      2014 |
+|               2 | Sales     |      2019 |
+|               1 | Finance   |      2021 |
+|               1 | marketing |      2010 |
++-----------------+-----------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> select count(emp_id) as total_employees, dept , year(doj) from emp2
+    -> group by dept,year(doj)
+    -> order by year(doj);
++-----------------+-----------+-----------+
+| total_employees | dept      | year(doj) |
++-----------------+-----------+-----------+
+|               1 | marketing |      2010 |
+|               1 | Sales     |      2013 |
+|               1 | Medical   |      2014 |
+|               1 | HR        |      2015 |
+|               1 | marketing |      2018 |
+|               1 | marketing |      2019 |
+|               3 | HR        |      2019 |
+|               1 | media     |      2019 |
+|               2 | Sales     |      2019 |
+|               1 | IT        |      2020 |
+|               1 | Finance   |      2021 |
++-----------------+-----------+-----------+
+11 rows in set (0.00 sec)

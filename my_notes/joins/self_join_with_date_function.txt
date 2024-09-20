@@ -1,0 +1,77 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| adv                |
+| clauses            |
+| csv                |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| himani             |
+| home               |
+| india              |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| pract              |
+| practice           |
+| string_operation   |
+| sys                |
+| test               |
++--------------------+
+20 rows in set (0.00 sec)
+
+mysql> use joins;
+Database changed
+mysql> select * from business ;
++-----+---------+--------------+-------+------------+
+| Eno | Ename   | job          | MgrNo | DOJ        |
++-----+---------+--------------+-------+------------+
+|   1 | Ajay    | Data Analyst |     4 | 2003-12-12 |
+|   2 | omkaran | developer    |     3 | 2004-12-10 |
+|   3 | pawan   | Accountant   |     4 | 2005-01-05 |
+|   4 | suraj   | Manager      |     0 | 2002-01-01 |
+|   5 | mehul   | Asst Manager |     4 | 2003-01-10 |
++-----+---------+--------------+-------+------------+
+5 rows in set (0.00 sec)
+
+
+mysql> select b.ename as emp_name ,year(b.doj) as joining_date , b1.ename as manager_name , year(b1.doj) as joining_date from business b join business b1
+    -> on b.mgrno = b1.eno;
++----------+--------------+--------------+--------------+
+| emp_name | joining_date | manager_name | joining_date |
++----------+--------------+--------------+--------------+
+| Ajay     |         2003 | suraj        |         2002 |
+| omkaran  |         2004 | pawan        |         2005 |
+| pawan    |         2005 | suraj        |         2002 |
+| mehul    |         2003 | suraj        |         2002 |
++----------+--------------+--------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select b.ename as emp_name ,year(b.doj) as joining_date , b1.ename as manager_name , year(b1.doj) as joining_date from business b join business b1
+    -> on b.mgrno = b1.eno and year(b.doj) < year(b1.doj);
++----------+--------------+--------------+--------------+
+| emp_name | joining_date | manager_name | joining_date |
++----------+--------------+--------------+--------------+
+| omkaran  |         2004 | pawan        |         2005 |
++----------+--------------+--------------+--------------+
+1 row in set (0.00 sec)
+
+mysql>

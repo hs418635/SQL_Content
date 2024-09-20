@@ -1,0 +1,171 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 74
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> sho databases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sho databases' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ddl_commands       |
+| dml_commands       |
+| information_schema |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+9 rows in set (0.02 sec)
+
+mysql> use operators;
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_operators |
++---------------------+
+| emp                 |
+| user1               |
+| user2               |
++---------------------+
+3 rows in set (0.01 sec)
+
+mysql> use overall;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_overall |
++-------------------+
+| student1          |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from student1;
++------+--------------------+------+----------+----------+--------------+---------+--------+
+| id   | email_id           | age  | st_name  | address  | dept         | state   | salary |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+|    5 | hs418635@gmail.com |   25 | himanshu | bhopal   | Data Science | up      | 50000  |
+|    6 | hsks@gmail.com     |    6 | kk       | indore   | IT           | mp      | 52000  |
+|    7 | kjsks@gmail.com    |    8 | sjs      | jabalpur | mechanical   | haryana | 20000  |
+|    9 | sun@gmail.com      |   52 | aman     | pune     | Sales        | Punjab  | 15000  |
+|   10 | amulya@gmail.com   |   26 | aman     | pune     | IT           | DL      | 60000  |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+5 rows in set (0.01 sec)
+
+mysql> select st_name from student1 where salary>ALL
+    -> ( select salary from student1 where address in ('bhopal','pune');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> select st_name from student1 where salary>ALL
+    -> ( select salary from student1 where address in ('bhopal','pune'));
+Empty set (0.00 sec)
+
+mysql> select st_name from student1 where salary>ALL
+    -> ( select salary from student1 where state in ('up','punjab'));
++---------+
+| st_name |
++---------+
+| kk      |
+| aman    |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select st_name from student1 where salary>ALL
+    -> ( select salary from student1 where state in ('up','punjab';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> select st_name from student1 where salary<ALL
+    -> ( select salary from student1 where state in ('up','punjab'));
+Empty set (0.00 sec)
+
+mysql> select st_name from student1 where salary>Any
+    -> ( select salary from student1 where state in ('up','punjab'));
++----------+
+| st_name  |
++----------+
+| himanshu |
+| kk       |
+| sjs      |
+| aman     |
++----------+
+4 rows in set (0.00 sec)
+
+mysql> select st_name from student1 where salary<Any
+    -> ( select salary from student1 where state in ('up','punjab'));
++---------+
+| st_name |
++---------+
+| sjs     |
+| aman    |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select st_name from student1 where salary>Any
+    -> ( select salary from student1 where state in ('up','punjab'));
++----------+
+| st_name  |
++----------+
+| himanshu |
+| kk       |
+| sjs      |
+| aman     |
++----------+
+4 rows in set (0.00 sec)
+
+mysql> select st_name from student1 where salary>some
+    -> ( select salary from student1 where state in ('up','punjab'));
++----------+
+| st_name  |
++----------+
+| himanshu |
+| kk       |
+| sjs      |
+| aman     |
++----------+
+4 rows in set (0.00 sec)
+
+mysql> select st_name from student1 where salary>exists
+    -> ( select salary from student1 where state in ('up','punjab'));
++----------+
+| st_name  |
++----------+
+| himanshu |
+| kk       |
+| sjs      |
+| aman     |
+| aman     |
++----------+
+5 rows in set (0.00 sec)
+
+mysql> update student1
+    -> set state='mah'
+    -> wehre id=5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wehre id=5' at line 3
+mysql> update student1
+    -> set state='mah'
+    -> where id=5;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student1;
++------+--------------------+------+----------+----------+--------------+---------+--------+
+| id   | email_id           | age  | st_name  | address  | dept         | state   | salary |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+|    5 | hs418635@gmail.com |   25 | himanshu | bhopal   | Data Science | mah     | 50000  |
+|    6 | hsks@gmail.com     |    6 | kk       | indore   | IT           | mp      | 52000  |
+|    7 | kjsks@gmail.com    |    8 | sjs      | jabalpur | mechanical   | haryana | 20000  |
+|    9 | sun@gmail.com      |   52 | aman     | pune     | Sales        | Punjab  | 15000  |
+|   10 | amulya@gmail.com   |   26 | aman     | pune     | IT           | DL      | 60000  |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql>

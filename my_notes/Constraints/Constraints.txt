@@ -1,0 +1,33 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Database changed
+mysql> create table constraints(id1 int primary key,
+    -> id2 varchar(50) unique , subject char(50) not null ,
+    -> age int, check (age>=18), city varchar(50) default 'indore');
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> describe constraints;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id1     | int         | NO   | PRI | NULL    |       |
+| id2     | varchar(50) | YES  | UNI | NULL    |       |
+| subject | char(50)    | NO   |     | NULL    |       |
+| age     | int         | YES  |     | NULL    |       |
+| city    | varchar(50) | YES  |     | indore  |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql>

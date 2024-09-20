@@ -1,0 +1,122 @@
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+12 rows in set (0.01 sec)
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| city               |
+| class              |
+| class_info         |
+| college            |
+| dept               |
+| library_department |
+| student            |
+| teacher            |
++--------------------+
+8 rows in set (0.01 sec)
+
+mysql> select * from class;
++----+----------+----------+
+| id | name     | city     |
++----+----------+----------+
+|  1 | virat    | Banglore |
+|  2 | Rohit    | Mumbai   |
+|  3 | hardik   | gujrat   |
+|  4 | shreyash | kolkata  |
++----+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from class_info;
++----+-------+
+| id | state |
++----+-------+
+|  1 | MP    |
+|  2 | UP    |
+|  3 | AP    |
+|  8 | DL    |
++----+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> ( select * from class c left join class_info ci on c.id = ci.id )
+    -> union
+    -> ( select * from class c right join class_info ci on c.id = ci.id );
++------+----------+----------+------+-------+
+| id   | name     | city     | id   | state |
++------+----------+----------+------+-------+
+|    1 | virat    | Banglore |    1 | MP    |
+|    2 | Rohit    | Mumbai   |    2 | UP    |
+|    3 | hardik   | gujrat   |    3 | AP    |
+|    4 | shreyash | kolkata  | NULL | NULL  |
+| NULL | NULL     | NULL     |    8 | DL    |
++------+----------+----------+------+-------+
+5 rows in set (0.00 sec)
+
+mysql> ( select * from class c left join class_info ci on c.id = ci.id )
+    -> union all
+    -> ( select * from class c right join class_info ci on c.id = ci.id );
++------+----------+----------+------+-------+
+| id   | name     | city     | id   | state |
++------+----------+----------+------+-------+
+|    1 | virat    | Banglore |    1 | MP    |
+|    2 | Rohit    | Mumbai   |    2 | UP    |
+|    3 | hardik   | gujrat   |    3 | AP    |
+|    4 | shreyash | kolkata  | NULL | NULL  |
+|    1 | virat    | Banglore |    1 | MP    |
+|    2 | Rohit    | Mumbai   |    2 | UP    |
+|    3 | hardik   | gujrat   |    3 | AP    |
+| NULL | NULL     | NULL     |    8 | DL    |
++------+----------+----------+------+-------+
+8 rows in set (0.00 sec)
+
+mysql> ( select c.name from class c left join class_info ci on c.id = ci.id )
+    -> union
+    -> ( select * from class c right join class_info ci on c.id = ci.id );
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> ( select c.name from class c left join class_info ci on c.id = ci.id )
+    -> union
+    -> ( select name from class c right join class_info ci on c.id = ci.id );
++----------+
+| name     |
++----------+
+| virat    |
+| Rohit    |
+| hardik   |
+| shreyash |
+| NULL     |
++----------+
+5 rows in set (0.00 sec)
+
+mysql> ( select name from class c right join class_info ci on c.name = ci.state );
++------+
+| name |
++------+
+| NULL |
+| NULL |
+| NULL |
+| NULL |
++------+
+4 rows in set (0.00 sec)
+
+mysql>

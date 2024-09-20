@@ -1,0 +1,106 @@
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| string_operation   |
+| sys                |
++--------------------+
+13 rows in set (0.01 sec)
+
+mysql> use overall;
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_overall   |
++---------------------+
+| covid19_countrywise |
+| covid_19_data       |
+| global_superstore2  |
+| office              |
+| student1            |
+| student1_view       |
++---------------------+
+6 rows in set (0.01 sec)
+
+mysql> select * from student1_view;
++----------+------+
+| st_name  | age  |
++----------+------+
+| himanshu |   26 |
++----------+------+
+1 row in set (0.00 sec)
+
+mysql> drop view student1_view;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_overall   |
++---------------------+
+| covid19_countrywise |
+| covid_19_data       |
+| global_superstore2  |
+| office              |
+| student1            |
++---------------------+
+5 rows in set (0.00 sec)
+
+mysql> create view student1_view
+    -> as
+    -> select * from student1;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from student1_view;;
++------+--------------------+------+----------+----------+--------------+---------+--------+
+| id   | email_id           | age  | st_name  | address  | dept         | state   | salary |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+|    5 | hs418635@gmail.com |   26 | himanshu | bhopal   | Data Science | mah     | 50000  |
+|    6 | hsks@gmail.com     |    6 | kk       | indore   | IT           | mp      | 52000  |
+|    7 | kjsks@gmail.com    |    8 | sjs      | jabalpur | mechanical   | haryana | 20000  |
+|    9 | sun@gmail.com      |   52 | aman     | pune     | Sales        | Punjab  | 15000  |
+|   10 | amulya@gmail.com   |   26 | aman     | pune     | IT           | DL      | 60000  |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+5 rows in set (0.00 sec)
+
+
+mysql> select * from student1;
++------+--------------------+------+----------+----------+--------------+---------+--------+
+| id   | email_id           | age  | st_name  | address  | dept         | state   | salary |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+|    5 | hs418635@gmail.com |   26 | himanshu | bhopal   | Data Science | mah     | 50000  |
+|    6 | hsks@gmail.com     |    6 | kk       | indore   | IT           | mp      | 52000  |
+|    7 | kjsks@gmail.com    |    8 | sjs      | jabalpur | mechanical   | haryana | 20000  |
+|    9 | sun@gmail.com      |   52 | aman     | pune     | Sales        | Punjab  | 15000  |
+|   10 | amulya@gmail.com   |   26 | aman     | pune     | IT           | DL      | 60000  |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update student1_view
+    -> set st_name = 'krish'
+    -> where id = 6;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student1;
++------+--------------------+------+----------+----------+--------------+---------+--------+
+| id   | email_id           | age  | st_name  | address  | dept         | state   | salary |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+|    5 | hs418635@gmail.com |   26 | himanshu | bhopal   | Data Science | mah     | 50000  |
+|    6 | hsks@gmail.com     |    6 | krish    | indore   | IT           | mp      | 52000  |
+|    7 | kjsks@gmail.com    |    8 | sjs      | jabalpur | mechanical   | haryana | 20000  |
+|    9 | sun@gmail.com      |   52 | aman     | pune     | Sales        | Punjab  | 15000  |
+|   10 | amulya@gmail.com   |   26 | aman     | pune     | IT           | DL      | 60000  |
++------+--------------------+------+----------+----------+--------------+---------+--------+
+5 rows in set (0.00 sec)

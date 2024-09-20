@@ -1,0 +1,38 @@
+Mysql stored procedure
+what ?
+advantages
+
+changing default delimiter---
+delimiter &&
+
+creating stored procedure
+create procedure CreateUserTable()
+    -> begin
+    -> create table if not exists user(
+    -> user_id int auto_increment primary key,
+    -> first_name varchar(50),
+    -> last_name varchar(50),
+    -> city varchar(50)
+    -> );
+    -> insert into user
+    -> (first_name , last_name , city)
+    -> values
+    -> ("himanshu","suryavanshi","indore"),
+    -> ("aman","kumar","bhopal");
+    -> select * from user;
+    -> end $$
+Query OK, 0 rows affected (0.01 sec)
+
+## call the stored procedure
+mysql> call CreateUserTable()$$
+
+## variables
+Declare [variableName] dataType(size) [default value];
+set variableName = value;
+
+parameters - IN, OUT , INOUT
+In- by default
+out - 
+
+DROP Procedure
+Listing Stored Procedures

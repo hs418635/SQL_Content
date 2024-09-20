@@ -1,0 +1,68 @@
+##### Decimal and Float
+
+in terms of precision ---> Decimal>Double>Float
+in terms of memory ----> Float>Double>Decimal
+
+using DECIMAL ensures that your numeric values are stored exactly as specified
+eg. Suppose you have a DECIMAL column defined as DECIMAL(10,2). This means it can store up to 10 digits in total, with 2 of them being after the decimal point. 
+If you insert the value 1234.56 into this column, it will be stored exactly as 1234.56, retaining both the integer part (1234) and the fractional part (.56) without
+ any loss of precision.
+
+Now, let's consider the same scenario with a FLOAT or DOUBLE column. If you insert 1234.56 into a FLOAT or DOUBLE column,
+ the value might not be stored exactly as 1234.56 due to the nature of floating-point representation. It could be stored as 1234.5600001 
+or 1234.5599999, depending on how the system rounds or approximates the value.
+
+mysql> use test;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| business       |
+| employee       |
+| student        |
++----------------+
+3 rows in set (0.01 sec)
+
+mysql> create table testing(id varchar(50) , id1 char(50) , age int(5) , marks float(6,2));
+Query OK, 0 rows affected, 2 warnings (0.16 sec)
+
+mysql> describe testing;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | varchar(50) | YES  |     | NULL    |       |
+| id1   | char(50)    | YES  |     | NULL    |       |
+| age   | int         | YES  |     | NULL    |       |
+| marks | float(6,2)  | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> insert into testing
+    -> values
+    -> (1,"D01",50,"1000.21");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from testing;
++------+------+------+---------+
+| id   | id1  | age  | marks   |
++------+------+------+---------+
+| 1    | D01  |   50 | 1000.21 |
++------+------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into testing
+    -> values
+    -> ("C002",5,50,"1001.31");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from testing;
++------+------+------+---------+
+| id   | id1  | age  | marks   |
++------+------+------+---------+
+| 1    | D01  |   50 | 1000.21 |
+| C002 | 5    |   50 | 1001.31 |
++------+------+------+---------+
+2 rows in set (0.00 sec)
+
+mysql>

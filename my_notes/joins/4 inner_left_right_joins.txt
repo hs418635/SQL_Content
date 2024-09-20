@@ -1,0 +1,432 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+12 rows in set (0.01 sec)
+
+mysql> use clauses;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_clauses |
++-------------------+
+| emp1              |
+| emp2              |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from emp2;
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+| emp_id | emp_name        | age  | gender | doj        | dept      | city        | salary   |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+|      1 | John Doe        |   30 | Male   | 2020-01-01 | IT        | New York    | 60000.00 |
+|      2 | Jane Smith      |   15 | Female | 2015-01-20 | HR        | Ahmadabad   | 55000.00 |
+|      5 | steve Smith     |   10 | Female | 2018-01-10 | marketing | Los Angeles | 55000.00 |
+|      8 | Rohit sharma    |   25 | Female | 2013-06-15 | Sales     | Mumbai      | 55000.00 |
+|     10 | bumrah          |   15 | Female | 2019-10-15 | marketing | Los Angeles | 35000.00 |
+|     15 | virat kohli     |   25 | Male   | 2019-04-13 | HR        | Los Angeles | 55000.00 |
+|     19 | md shami        |   30 | Male   | 2019-03-05 | media     | Banglore    |  5000.00 |
+|     20 | rohit sharma    |   26 | Male   | 2014-10-15 | Medical   | Delhi       | 12000.00 |
+|     25 | bhuvi           |   90 | Female | 2019-07-15 | Sales     | Bhopal      | 90000.00 |
+|     30 | Jane Smith      |   50 | Male   | 2019-03-05 | Sales     | Los Angeles | 85000.00 |
+|     35 | siraj           |   35 | Male   | 2019-03-20 | HR        | Los Angeles |  9500.00 |
+|     38 | mitchel Johnson |   32 | Female | 2021-10-10 | Finance   | Indore      | 70000.00 |
+|     40 | kedar jadav     |  100 | Male   | 2010-09-28 | marketing | Indore      | 25000.00 |
+|     62 | virat kohli     |   28 | Female | 2019-06-15 | HR        | Mumbai      | 12000.00 |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+14 rows in set (0.02 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) from emp2
+    -> group by dept, year(doj);
++-----------------+-----------+-----------+
+| total_employees | dept      | year(doj) |
++-----------------+-----------+-----------+
+|               1 | IT        |      2020 |
+|               1 | HR        |      2015 |
+|               1 | marketing |      2018 |
+|               1 | Sales     |      2013 |
+|               1 | marketing |      2019 |
+|               3 | HR        |      2019 |
+|               1 | media     |      2019 |
+|               1 | Medical   |      2014 |
+|               2 | Sales     |      2019 |
+|               1 | Finance   |      2021 |
+|               1 | marketing |      2010 |
++-----------------+-----------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) from emp2
+    -> group by dept, year(doj)
+    -> order by year(doj) desc;
++-----------------+-----------+-----------+
+| total_employees | dept      | year(doj) |
++-----------------+-----------+-----------+
+|               1 | Finance   |      2021 |
+|               1 | IT        |      2020 |
+|               1 | marketing |      2019 |
+|               3 | HR        |      2019 |
+|               1 | media     |      2019 |
+|               2 | Sales     |      2019 |
+|               1 | marketing |      2018 |
+|               1 | HR        |      2015 |
+|               1 | Medical   |      2014 |
+|               1 | Sales     |      2013 |
+|               1 | marketing |      2010 |
++-----------------+-----------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) from emp2
+    -> group by dept, year(doj)
+    -> order by year(doj) asc;
++-----------------+-----------+-----------+
+| total_employees | dept      | year(doj) |
++-----------------+-----------+-----------+
+|               1 | marketing |      2010 |
+|               1 | Sales     |      2013 |
+|               1 | Medical   |      2014 |
+|               1 | HR        |      2015 |
+|               1 | marketing |      2018 |
+|               1 | marketing |      2019 |
+|               3 | HR        |      2019 |
+|               1 | media     |      2019 |
+|               2 | Sales     |      2019 |
+|               1 | IT        |      2020 |
+|               1 | Finance   |      2021 |
++-----------------+-----------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,city from emp2
+    -> group by dept, year(doj)
+    -> order by year(doj) desc;
+ERROR 1055 (42000): Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'clauses.emp2.city' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,city from emp2
+    -> group by dept, year(doj),city ;
++-----------------+-----------+-----------+-------------+
+| total_employees | dept      | year(doj) | city        |
++-----------------+-----------+-----------+-------------+
+|               1 | IT        |      2020 | New York    |
+|               1 | HR        |      2015 | Ahmadabad   |
+|               1 | marketing |      2018 | Los Angeles |
+|               1 | Sales     |      2013 | Mumbai      |
+|               1 | marketing |      2019 | Los Angeles |
+|               2 | HR        |      2019 | Los Angeles |
+|               1 | media     |      2019 | Banglore    |
+|               1 | Medical   |      2014 | Delhi       |
+|               1 | Sales     |      2019 | Bhopal      |
+|               1 | Sales     |      2019 | Los Angeles |
+|               1 | Finance   |      2021 | Indore      |
+|               1 | marketing |      2010 | Indore      |
+|               1 | HR        |      2019 | Mumbai      |
++-----------------+-----------+-----------+-------------+
+13 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,city from emp2
+    -> group by year(doj),dept,city ;
++-----------------+-----------+-----------+-------------+
+| total_employees | dept      | year(doj) | city        |
++-----------------+-----------+-----------+-------------+
+|               1 | IT        |      2020 | New York    |
+|               1 | HR        |      2015 | Ahmadabad   |
+|               1 | marketing |      2018 | Los Angeles |
+|               1 | Sales     |      2013 | Mumbai      |
+|               1 | marketing |      2019 | Los Angeles |
+|               2 | HR        |      2019 | Los Angeles |
+|               1 | media     |      2019 | Banglore    |
+|               1 | Medical   |      2014 | Delhi       |
+|               1 | Sales     |      2019 | Bhopal      |
+|               1 | Sales     |      2019 | Los Angeles |
+|               1 | Finance   |      2021 | Indore      |
+|               1 | marketing |      2010 | Indore      |
+|               1 | HR        |      2019 | Mumbai      |
++-----------------+-----------+-----------+-------------+
+13 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,city from emp2
+    -> group by year(doj),dept,city
+    -> order by year(doj);
++-----------------+-----------+-----------+-------------+
+| total_employees | dept      | year(doj) | city        |
++-----------------+-----------+-----------+-------------+
+|               1 | marketing |      2010 | Indore      |
+|               1 | Sales     |      2013 | Mumbai      |
+|               1 | Medical   |      2014 | Delhi       |
+|               1 | HR        |      2015 | Ahmadabad   |
+|               1 | marketing |      2018 | Los Angeles |
+|               2 | HR        |      2019 | Los Angeles |
+|               1 | HR        |      2019 | Mumbai      |
+|               1 | marketing |      2019 | Los Angeles |
+|               1 | media     |      2019 | Banglore    |
+|               1 | Sales     |      2019 | Bhopal      |
+|               1 | Sales     |      2019 | Los Angeles |
+|               1 | IT        |      2020 | New York    |
+|               1 | Finance   |      2021 | Indore      |
++-----------------+-----------+-----------+-------------+
+13 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) from emp2
+    -> where dept in ('hr',sales')
+    '> group by dept , year(doj)
+    '> order by year(doj);
+    '> ^C
+mysql> select count(emp_name) as total_employees , dept , year(doj) from emp2
+    -> where dept in ('hr','sales')
+    -> group by dept , year(doj)
+    -> order by year(doj);
++-----------------+-------+-----------+
+| total_employees | dept  | year(doj) |
++-----------------+-------+-----------+
+|               1 | Sales |      2013 |
+|               1 | HR    |      2015 |
+|               3 | HR    |      2019 |
+|               2 | Sales |      2019 |
++-----------------+-------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) from emp2
+    -> where salary > 30000
+    -> group by dept , year(doj)
+    -> order by year(doj);
++-----------------+-----------+-----------+
+| total_employees | dept      | year(doj) |
++-----------------+-----------+-----------+
+|               1 | Sales     |      2013 |
+|               1 | HR        |      2015 |
+|               1 | marketing |      2018 |
+|               1 | marketing |      2019 |
+|               1 | HR        |      2019 |
+|               2 | Sales     |      2019 |
+|               1 | IT        |      2020 |
+|               1 | Finance   |      2021 |
++-----------------+-----------+-----------+
+8 rows in set (0.05 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,salary from emp2
+    -> where salary > 30000
+    -> group by dept , year(doj),salary
+    -> order by year(doj);
++-----------------+-----------+-----------+----------+
+| total_employees | dept      | year(doj) | salary   |
++-----------------+-----------+-----------+----------+
+|               1 | Sales     |      2013 | 55000.00 |
+|               1 | HR        |      2015 | 55000.00 |
+|               1 | marketing |      2018 | 55000.00 |
+|               1 | marketing |      2019 | 35000.00 |
+|               1 | HR        |      2019 | 55000.00 |
+|               1 | Sales     |      2019 | 90000.00 |
+|               1 | Sales     |      2019 | 85000.00 |
+|               1 | IT        |      2020 | 60000.00 |
+|               1 | Finance   |      2021 | 70000.00 |
++-----------------+-----------+-----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) from emp2
+    -> where sum(salary) > 30000
+    -> group by dept , year(doj),salary
+    -> order by year(doj);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,salary from emp2
+    -> group by dept , year(doj) , salary
+    -> having avg(salary) > 30000
+    -> order by salary;
++-----------------+-----------+-----------+----------+
+| total_employees | dept      | year(doj) | salary   |
++-----------------+-----------+-----------+----------+
+|               1 | marketing |      2019 | 35000.00 |
+|               1 | HR        |      2015 | 55000.00 |
+|               1 | marketing |      2018 | 55000.00 |
+|               1 | Sales     |      2013 | 55000.00 |
+|               1 | HR        |      2019 | 55000.00 |
+|               1 | IT        |      2020 | 60000.00 |
+|               1 | Finance   |      2021 | 70000.00 |
+|               1 | Sales     |      2019 | 85000.00 |
+|               1 | Sales     |      2019 | 90000.00 |
++-----------------+-----------+-----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,salary from emp2
+    -> having avg(salary) > 50000
+    -> group by dept , year(doj) , salary
+    -> ^C
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,salary from emp2
+    -> group by dept , year(doj) , salary
+    -> having avg(salary) > 55000
+    -> order by salary;
++-----------------+---------+-----------+----------+
+| total_employees | dept    | year(doj) | salary   |
++-----------------+---------+-----------+----------+
+|               1 | IT      |      2020 | 60000.00 |
+|               1 | Finance |      2021 | 70000.00 |
+|               1 | Sales   |      2019 | 85000.00 |
+|               1 | Sales   |      2019 | 90000.00 |
++-----------------+---------+-----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select count(emp_name) as total_employees , dept , year(doj) ,salary from emp2
+    -> group by dept , year(doj) , salary
+    -> having avg(salary) > 55000
+    -> order by salary desc;
++-----------------+---------+-----------+----------+
+| total_employees | dept    | year(doj) | salary   |
++-----------------+---------+-----------+----------+
+|               1 | Sales   |      2019 | 90000.00 |
+|               1 | Sales   |      2019 | 85000.00 |
+|               1 | Finance |      2021 | 70000.00 |
+|               1 | IT      |      2020 | 60000.00 |
++-----------------+---------+-----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| city               |
+| college            |
+| dept               |
+| library_department |
+| student            |
+| teacher            |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> create table class ( id int primarky key , name varchar(50) , city varchar(50));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primarky key , name varchar(50) , city varchar(50))' at line 1
+mysql> create table class(id int primarky key , name varchar(50) , city varchar(50));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primarky key , name varchar(50) , city varchar(50))' at line 1
+mysql> create table class(id int primary key , name varchar(50) , city varchar(50));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into class
+    -> values
+    -> (1,"virat","Banglore"),
+    -> (2,"Rohit","Mumbai"),
+    -> (3,"hardik","gujrat"),
+    -> (4,"shreyash","kolkata");
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from class;
++----+----------+----------+
+| id | name     | city     |
++----+----------+----------+
+|  1 | virat    | Banglore |
+|  2 | Rohit    | Mumbai   |
+|  3 | hardik   | gujrat   |
+|  4 | shreyash | kolkata  |
++----+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> create table class_info(id int primary key , state varchar(30);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table class_info(id int primary key , state varchar(30));
+Query OK, 0 rows affected (0.06 sec)
+
+
+mysql> insert into class_info
+    -> values
+    -> (1,"MP"),
+    -> (2,"UP"),
+    -> (3,"AP"),
+    -> (8,"DL");
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from class;
++----+----------+----------+
+| id | name     | city     |
++----+----------+----------+
+|  1 | virat    | Banglore |
+|  2 | Rohit    | Mumbai   |
+|  3 | hardik   | gujrat   |
+|  4 | shreyash | kolkata  |
++----+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from class_info;
++----+-------+
+| id | state |
++----+-------+
+|  1 | MP    |
+|  2 | UP    |
+|  3 | AP    |
+|  8 | DL    |
++----+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from class c inner join class_info ci
+    -> on c.id = ci.id;
++----+--------+----------+----+-------+
+| id | name   | city     | id | state |
++----+--------+----------+----+-------+
+|  1 | virat  | Banglore |  1 | MP    |
+|  2 | Rohit  | Mumbai   |  2 | UP    |
+|  3 | hardik | gujrat   |  3 | AP    |
++----+--------+----------+----+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from class c inner left join class_info ci
+    -> on c.id = ci.id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'left join class_info ci
+on c.id = ci.id' at line 1
+mysql> select * from class c left join class_info ci
+    -> on c.id = ci.id;
++----+----------+----------+------+-------+
+| id | name     | city     | id   | state |
++----+----------+----------+------+-------+
+|  1 | virat    | Banglore |    1 | MP    |
+|  2 | Rohit    | Mumbai   |    2 | UP    |
+|  3 | hardik   | gujrat   |    3 | AP    |
+|  4 | shreyash | kolkata  | NULL | NULL  |
++----+----------+----------+------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from class c right join class_info ci
+    -> on c.id = ci.id;
++------+--------+----------+----+-------+
+| id   | name   | city     | id | state |
++------+--------+----------+----+-------+
+|    1 | virat  | Banglore |  1 | MP    |
+|    2 | Rohit  | Mumbai   |  2 | UP    |
+|    3 | hardik | gujrat   |  3 | AP    |
+| NULL | NULL   | NULL     |  8 | DL    |
++------+--------+----------+----+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> select * from class c cross join class_info ci
+    -> on c.id = ci.id;
++----+--------+----------+----+-------+
+| id | name   | city     | id | state |
++----+--------+----------+----+-------+
+|  1 | virat  | Banglore |  1 | MP    |
+|  2 | Rohit  | Mumbai   |  2 | UP    |
+|  3 | hardik | gujrat   |  3 | AP    |
++----+--------+----------+----+-------+
+3 rows in set (0.00 sec)

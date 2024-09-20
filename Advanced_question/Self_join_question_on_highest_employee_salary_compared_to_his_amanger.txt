@@ -1,0 +1,67 @@
+Q.2 Write a solution to find the employees who earn more than their managers.
+
+mysql> use adv;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_adv |
++---------------+
+| course        |
+| employee      |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee;
++----+-------+--------+-----------+
+| id | name  | salary | managerID |
++----+-------+--------+-----------+
+|  1 | joe   | 70000  | 3         |
+|  2 | Henry | 80000  | 4         |
+|  3 | sam   | 60000  | NULL      |
+|  4 | Max   | 9000   | NULL      |
++----+-------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> update employee
+    -> set salary=
+    -> case
+    -> when id=4 then '90000'
+    -> else
+    -> salary end
+    -> where id=4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++----+-------+--------+-----------+
+| id | name  | salary | managerID |
++----+-------+--------+-----------+
+|  1 | joe   | 70000  | 3         |
+|  2 | Henry | 80000  | 4         |
+|  3 | sam   | 60000  | NULL      |
+|  4 | Max   | 90000  | NULL      |
++----+-------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select e.name as emp_name , e.salary as emp_salary , e1.name as mgr_name , e1.salary as emp_salary
+    -> from employee e join employee e1
+    -> on e.managerid = e1.id;
++----------+------------+----------+------------+
+| emp_name | emp_salary | mgr_name | emp_salary |
++----------+------------+----------+------------+
+| joe      | 70000      | sam      | 60000      |
+| Henry    | 80000      | Max      | 90000      |
++----------+------------+----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select e.name as emp_name , e.salary as emp_salary , e1.name as mgr_name , e1.salary as emp_salary
+    -> from employee e join employee e1
+    -> on e.managerid = e1.id and e.salary > e1.salary;
++----------+------------+----------+------------+
+| emp_name | emp_salary | mgr_name | emp_salary |
++----------+------------+----------+------------+
+| joe      | 70000      | sam      | 60000      |
++----------+------------+----------+------------+
+1 row in set (0.00 sec)
+
+mysql>

@@ -1,0 +1,51 @@
+
+
+mysql> use practice;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> create table student(stname varchar(50) , mobnum int(12) , email_id varchar(50) not null);
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> describe student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| stname   | varchar(50) | YES  |     | NULL    |       |
+| mobnum   | int         | YES  |     | NULL    |       |
+| email_id | varchar(50) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student (stname,mobnum,email_id) values( "pawan",83589586,"abc@gmail.com");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student (stname,mobnum,email_id) values ("pw",8659,"abc@gmail.com");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++--------+----------+---------------+
+| stname | mobnum   | email_id      |
++--------+----------+---------------+
+| pawan  | 83589586 | abc@gmail.com |
+| pw     |     8659 | abc@gmail.com |
++--------+----------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into student values ("h",8358,"a@gmail.com"),("p",5748,"kjdjk@gmail.com");
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++--------+----------+-----------------+
+| stname | mobnum   | email_id        |
++--------+----------+-----------------+
+| pawan  | 83589586 | abc@gmail.com   |
+| pw     |     8659 | abc@gmail.com   |
+| h      |     8358 | a@gmail.com     |
+| p      |     5748 | kjdjk@gmail.com |
++--------+----------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql>

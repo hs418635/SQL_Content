@@ -1,0 +1,368 @@
+
+
+mysql> use test;
+Database changed
+mysql> select * from emp1;
++--------+-----------+-----+----------+-----------+--------+
+| emp_id | name      | age | city     | country   | salary |
++--------+-----------+-----+----------+-----------+--------+
+|      1 | Sekhar    |  65 | Indore   | India     |  10000 |
+|      2 | himanshu  |   6 | bhopal   | India     |  20000 |
+|      3 | akki      |   5 | jabalpur | India     |  15000 |
+|      4 | Kunal     |  15 | patna    | India     |  15520 |
+|      5 | Sunny     |   6 | Indore   | USA       |  11000 |
+|      6 | Rohit     |  10 | jabalpur | Australia |  12500 |
+|      7 | kk        |  65 | Indore   | India     |  12500 |
+|      8 | sunju     |   6 | bhopal   | India     |  10000 |
+|      9 | vini      |   5 | jabalpur | India     |  20000 |
+|     10 | abhilasha |  15 | sohagpur | India     |  25000 |
++--------+-----------+-----+----------+-----------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select 50+60;
++-------+
+| 50+60 |
++-------+
+|   110 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select 59&47;
++-------+
+| 59&47 |
++-------+
+|    43 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select 8>9;
++-----+
+| 8>9 |
++-----+
+|   0 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> select name,salary from emp1 where salary>15000;
++-----------+--------+
+| name      | salary |
++-----------+--------+
+| himanshu  |  20000 |
+| Kunal     |  15520 |
+| vini      |  20000 |
+| abhilasha |  25000 |
++-----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select name,salary from emp1 where salary<>15000;
++-----------+--------+
+| name      | salary |
++-----------+--------+
+| Sekhar    |  10000 |
+| himanshu  |  20000 |
+| Kunal     |  15520 |
+| Sunny     |  11000 |
+| Rohit     |  12500 |
+| kk        |  12500 |
+| sunju     |  10000 |
+| vini      |  20000 |
+| abhilasha |  25000 |
++-----------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select name,salary from emp1 where salary != 15000;
++-----------+--------+
+| name      | salary |
++-----------+--------+
+| Sekhar    |  10000 |
+| himanshu  |  20000 |
+| Kunal     |  15520 |
+| Sunny     |  11000 |
+| Rohit     |  12500 |
+| kk        |  12500 |
+| sunju     |  10000 |
+| vini      |  20000 |
+| abhilasha |  25000 |
++-----------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select name , salary from emp1 where age>18 and salary<>15000;
++--------+--------+
+| name   | salary |
++--------+--------+
+| Sekhar |  10000 |
+| kk     |  12500 |
++--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from emp1;
++--------+-----------+-----+----------+-----------+--------+
+| emp_id | name      | age | city     | country   | salary |
++--------+-----------+-----+----------+-----------+--------+
+|      1 | Sekhar    |  65 | Indore   | India     |  10000 |
+|      2 | himanshu  |   6 | bhopal   | India     |  20000 |
+|      3 | akki      |   5 | jabalpur | India     |  15000 |
+|      4 | Kunal     |  15 | patna    | India     |  15520 |
+|      5 | Sunny     |   6 | Indore   | USA       |  11000 |
+|      6 | Rohit     |  10 | jabalpur | Australia |  12500 |
+|      7 | kk        |  65 | Indore   | India     |  12500 |
+|      8 | sunju     |   6 | bhopal   | India     |  10000 |
+|      9 | vini      |   5 | jabalpur | India     |  20000 |
+|     10 | abhilasha |  15 | sohagpur | India     |  25000 |
++--------+-----------+-----+----------+-----------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select name from emp1 where name like "s%" ;
++--------+
+| name   |
++--------+
+| Sekhar |
+| Sunny  |
+| sunju  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select name from emp1 where name like "%i" ;
++------+
+| name |
++------+
+| akki |
+| vini |
++------+
+2 rows in set (0.00 sec)
+
+mysql> select name from emp1 where name not like "%i" ;
++-----------+
+| name      |
++-----------+
+| Sekhar    |
+| himanshu  |
+| Kunal     |
+| Sunny     |
+| Rohit     |
+| kk        |
+| sunju     |
+| abhilasha |
++-----------+
+8 rows in set (0.00 sec)
+
+mysql> select name from emp1 where name  like "%ma%" ;
++----------+
+| name     |
++----------+
+| himanshu |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select name from emp1 where name  like "h%u" ;
++----------+
+| name     |
++----------+
+| himanshu |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select name,city from emp1 where name  like "h%u" and city like 'i%a' ;
+Empty set (0.00 sec)
+
+mysql> select name,country from emp1 where name  like "h%u" and country like 'i%a' ;
++----------+---------+
+| name     | country |
++----------+---------+
+| himanshu | India   |
++----------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM EMP1 WHERE COUNTRY IN ('INDIA','AUSTRALIA');
++--------+-----------+-----+----------+-----------+--------+
+| emp_id | name      | age | city     | country   | salary |
++--------+-----------+-----+----------+-----------+--------+
+|      1 | Sekhar    |  65 | Indore   | India     |  10000 |
+|      2 | himanshu  |   6 | bhopal   | India     |  20000 |
+|      3 | akki      |   5 | jabalpur | India     |  15000 |
+|      4 | Kunal     |  15 | patna    | India     |  15520 |
+|      6 | Rohit     |  10 | jabalpur | Australia |  12500 |
+|      7 | kk        |  65 | Indore   | India     |  12500 |
+|      8 | sunju     |   6 | bhopal   | India     |  10000 |
+|      9 | vini      |   5 | jabalpur | India     |  20000 |
+|     10 | abhilasha |  15 | sohagpur | India     |  25000 |
++--------+-----------+-----+----------+-----------+--------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP1 WHERE AGE IN (6,15);
++--------+-----------+-----+----------+---------+--------+
+| emp_id | name      | age | city     | country | salary |
++--------+-----------+-----+----------+---------+--------+
+|      2 | himanshu  |   6 | bhopal   | India   |  20000 |
+|      4 | Kunal     |  15 | patna    | India   |  15520 |
+|      5 | Sunny     |   6 | Indore   | USA     |  11000 |
+|      8 | sunju     |   6 | bhopal   | India   |  10000 |
+|     10 | abhilasha |  15 | sohagpur | India   |  25000 |
++--------+-----------+-----+----------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP1 WHERE AGE NOT IN (6,15);
++--------+--------+-----+----------+-----------+--------+
+| emp_id | name   | age | city     | country   | salary |
++--------+--------+-----+----------+-----------+--------+
+|      1 | Sekhar |  65 | Indore   | India     |  10000 |
+|      3 | akki   |   5 | jabalpur | India     |  15000 |
+|      6 | Rohit  |  10 | jabalpur | Australia |  12500 |
+|      7 | kk     |  65 | Indore   | India     |  12500 |
+|      9 | vini   |   5 | jabalpur | India     |  20000 |
++--------+--------+-----+----------+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP1 WHERE SALARY BETWEEN 15000 AND 20000;
++--------+----------+-----+----------+---------+--------+
+| emp_id | name     | age | city     | country | salary |
++--------+----------+-----+----------+---------+--------+
+|      2 | himanshu |   6 | bhopal   | India   |  20000 |
+|      3 | akki     |   5 | jabalpur | India   |  15000 |
+|      4 | Kunal    |  15 | patna    | India   |  15520 |
+|      9 | vini     |   5 | jabalpur | India   |  20000 |
++--------+----------+-----+----------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP1;
++--------+-----------+-----+----------+-----------+--------+
+| emp_id | name      | age | city     | country   | salary |
++--------+-----------+-----+----------+-----------+--------+
+|      1 | Sekhar    |  65 | Indore   | India     |  10000 |
+|      2 | himanshu  |   6 | bhopal   | India     |  20000 |
+|      3 | akki      |   5 | jabalpur | India     |  15000 |
+|      4 | Kunal     |  15 | patna    | India     |  15520 |
+|      5 | Sunny     |   6 | Indore   | USA       |  11000 |
+|      6 | Rohit     |  10 | jabalpur | Australia |  12500 |
+|      7 | kk        |  65 | Indore   | India     |  12500 |
+|      8 | sunju     |   6 | bhopal   | India     |  10000 |
+|      9 | vini      |   5 | jabalpur | India     |  20000 |
+|     10 | abhilasha |  15 | sohagpur | India     |  25000 |
++--------+-----------+-----+----------+-----------+--------+
+10 rows in set (0.00 sec)
+
+
+mysql> SELECT NAME,CITY,SALARY FROM EMP1 WHERE SALARY>ALL
+    -> (SELECT SALARY FROM EMP1 WHERE CITY IN ('INDORE','JABALPUR'));
++-----------+----------+--------+
+| NAME      | CITY     | SALARY |
++-----------+----------+--------+
+| abhilasha | sohagpur |  25000 |
++-----------+----------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM EMP1 WHERE SALARY>20000;
++--------+-----------+-----+----------+---------+--------+
+| emp_id | name      | age | city     | country | salary |
++--------+-----------+-----+----------+---------+--------+
+|     10 | abhilasha |  15 | sohagpur | India   |  25000 |
++--------+-----------+-----+----------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT NAME,CITY,SALARY FROM EMP1 WHERE SALARY>ANY
+    -> (SELECT SALARY FROM EMP1 WHERE CITY IN ('INDORE','JABALPUR'));
++-----------+----------+--------+
+| NAME      | CITY     | SALARY |
++-----------+----------+--------+
+| himanshu  | bhopal   |  20000 |
+| akki      | jabalpur |  15000 |
+| Kunal     | patna    |  15520 |
+| Sunny     | Indore   |  11000 |
+| Rohit     | jabalpur |  12500 |
+| kk        | Indore   |  12500 |
+| vini      | jabalpur |  20000 |
+| abhilasha | sohagpur |  25000 |
++-----------+----------+--------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT NAME,CITY,SALARY FROM EMP1 WHERE SALARY<ANY
+    -> (SELECT SALARY FROM EMP1 WHERE CITY IN ('INDORE','JABALPUR'));
++--------+----------+--------+
+| NAME   | CITY     | SALARY |
++--------+----------+--------+
+| Sekhar | Indore   |  10000 |
+| akki   | jabalpur |  15000 |
+| Kunal  | patna    |  15520 |
+| Sunny  | Indore   |  11000 |
+| Rohit  | jabalpur |  12500 |
+| kk     | Indore   |  12500 |
+| sunju  | bhopal   |  10000 |
++--------+----------+--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT NAME,CITY,SALARY FROM EMP1 WHERE SALARY<ALL
+    -> (SELECT SALARY FROM EMP1 WHERE CITY IN ('INDORE','JABALPUR'));
+Empty set (0.00 sec)
+
+mysql> SELECT NAME,CITY,SALARY FROM EMP1 WHERE SALARY>EXISTS
+    -> (SELECT SALARY FROM EMP1 WHERE CITY IN ('INDORE','JABALPUR'));
++-----------+----------+--------+
+| NAME      | CITY     | SALARY |
++-----------+----------+--------+
+| Sekhar    | Indore   |  10000 |
+| himanshu  | bhopal   |  20000 |
+| akki      | jabalpur |  15000 |
+| Kunal     | patna    |  15520 |
+| Sunny     | Indore   |  11000 |
+| Rohit     | jabalpur |  12500 |
+| kk        | Indore   |  12500 |
+| sunju     | bhopal   |  10000 |
+| vini      | jabalpur |  20000 |
+| abhilasha | sohagpur |  25000 |
++-----------+----------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT NAME,CITY,SALARY FROM EMP1 WHERE SALARY<EXISTS
+    -> (SELECT SALARY FROM EMP1 WHERE CITY IN ('INDORE','JABALPUR'));
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM EMP1 WHERE SALARY=
+    -> (SELECT DISTINCT SALARY FROM EMP1 ORDER BY SALARY DESC LIMIT 1 OFFSET 1);
++--------+----------+-----+----------+---------+--------+
+| emp_id | name     | age | city     | country | salary |
++--------+----------+-----+----------+---------+--------+
+|      2 | himanshu |   6 | bhopal   | India   |  20000 |
+|      9 | vini     |   5 | jabalpur | India   |  20000 |
++--------+----------+-----+----------+---------+--------+
+2 rows in set (0.00 sec)
+
+version for the right syntax to use near 'SELECT * FROM EMP1' at line 2
+mysql> SELECT * FROM EMP1;
++--------+-----------+-----+----------+-----------+--------+
+| emp_id | name      | age | city     | country   | salary |
++--------+-----------+-----+----------+-----------+--------+
+|      1 | Sekhar    |  65 | Indore   | India     |  10000 |
+|      2 | himanshu  |   6 | bhopal   | India     |  20000 |
+|      3 | akki      |   5 | jabalpur | India     |  15000 |
+|      4 | Kunal     |  15 | patna    | India     |  15520 |
+|      5 | Sunny     |   6 | Indore   | USA       |  11000 |
+|      6 | Rohit     |  10 | jabalpur | Australia |  12500 |
+|      7 | kk        |  65 | Indore   | India     |  12500 |
+|      8 | sunju     |   6 | bhopal   | India     |  10000 |
+|      9 | vini      |   5 | jabalpur | India     |  20000 |
+|     10 | abhilasha |  15 | sohagpur | India     |  25000 |
++--------+-----------+-----+----------+-----------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP1 LIMIT 4,5;
++--------+-------+-----+----------+-----------+--------+
+| emp_id | name  | age | city     | country   | salary |
++--------+-------+-----+----------+-----------+--------+
+|      5 | Sunny |   6 | Indore   | USA       |  11000 |
+|      6 | Rohit |  10 | jabalpur | Australia |  12500 |
+|      7 | kk    |  65 | Indore   | India     |  12500 |
+|      8 | sunju |   6 | bhopal   | India     |  10000 |
+|      9 | vini  |   5 | jabalpur | India     |  20000 |
++--------+-------+-----+----------+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP1 ORDER BY SALARY DESC LIMIT 2,1;
++--------+----------+-----+--------+---------+--------+
+| emp_id | name     | age | city   | country | salary |
++--------+----------+-----+--------+---------+--------+
+|      2 | himanshu |   6 | bhopal | India   |  20000 |
++--------+----------+-----+--------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql>

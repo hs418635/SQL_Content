@@ -1,0 +1,133 @@
+
+
+mysql> CREATE DATABASE PRACTICE;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE PRACTICE;
+Database changed
+mysql> CREATE TABLE DEBUGSHALA(st_id int(5), st_names varchar(50), mob_num int(10));
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+mysql> describe debugshala;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| st_id    | int         | YES  |     | NULL    |       |
+| st_names | varchar(50) | YES  |     | NULL    |       |
+| mob_num  | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from debugshala;
+Empty set (0.00 sec)
+
+mysql> alter table debugshala add email_id varchar(30) unique;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe debugshala;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| st_id    | int         | YES  |     | NULL    |       |
+| st_names | varchar(50) | YES  |     | NULL    |       |
+| mob_num  | int         | YES  |     | NULL    |       |
+| email_id | varchar(30) | YES  | UNI | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table debugshala rename to debughshala1;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> describe student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| st_id    | int         | YES  |     | NULL    |       |
+| st_names | varchar(50) | YES  |     | NULL    |       |
+| mob_num  | int         | YES  |     | NULL    |       |
+| email_id | varchar(30) | YES  | UNI | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student modify mob_num varchar(12);
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| st_id    | int         | YES  |     | NULL    |       |
+| st_names | varchar(50) | YES  |     | NULL    |       |
+| mob_num  | varchar(12) | YES  |     | NULL    |       |
+| email_id | varchar(30) | YES  | UNI | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student modify st_id int primary key;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| st_id    | int         | NO   | PRI | NULL    |       |
+| st_names | varchar(50) | YES  |     | NULL    |       |
+| mob_num  | varchar(12) | YES  |     | NULL    |       |
+| email_id | varchar(30) | YES  | UNI | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student
+    -> modify email_id varchar(30) after st_id;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| st_id    | int         | NO   | PRI | NULL    |       |
+| email_id | varchar(30) | YES  | UNI | NULL    |       |
+| st_names | varchar(50) | YES  |     | NULL    |       |
+| mob_num  | varchar(12) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> alter table student
+    -> modify mob_num varchar(12) first;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| mob_num  | varchar(12) | YES  |     | NULL    |       |
+| st_id    | int         | NO   | PRI | NULL    |       |
+| email_id | varchar(30) | YES  | UNI | NULL    |       |
+| st_names | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student drop mob_num;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| st_id    | int         | NO   | PRI | NULL    |       |
+| email_id | varchar(30) | YES  | UNI | NULL    |       |
+| st_names | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+mysql> drop table student;
+Query OK, 0 rows affected (0.04 sec)
+

@@ -1,0 +1,22 @@
+DDL Tasks
+1.Create a Database:
+Task: Write a DDL command to create a database named StudentDB.
+
+2.Create a Table:
+Task: Write a DDL command to create a table named Students with the following columns:
+StudentID, FirstName , LastName, and Age.
+
+3.Alter a Table:
+Task: Write a DDL command to add a new column named Email of type VARCHAR(100) to the Students table
+Task: change the columns position from last to second.
+Task: rename FirstName as Fname , and Age as st_age.
+Task: change the Datatypes of any one column.
+
+DML Tasks
+1.Insert atleast 10 records in the table , using all the insertion methods , which we have covered in the class.
+(repeat/duplicate 2 to 3 ages in the age column)
+2.use update command to update the values
+3.show the distinct age
+4.show only bottom 4 rows/records.
+5.show 2nd lowest age.
+ 

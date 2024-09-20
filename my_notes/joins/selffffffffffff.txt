@@ -1,0 +1,80 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| business           |
+| city               |
+| college            |
+| dept               |
+| library_department |
+| personal           |
+| players            |
+| players_state      |
+| professional       |
+| student            |
+| teacher            |
++--------------------+
+11 rows in set (0.01 sec)
+
+mysql> select * from business;
++-----+---------+--------------+-------+------------+
+| Eno | Ename   | job          | MgrNo | DOJ        |
++-----+---------+--------------+-------+------------+
+|   1 | Ajay    | Data Analyst |     4 | 2003-12-12 |
+|   2 | omkaran | developer    |     3 | 2004-12-10 |
+|   3 | pawan   | Accountant   |     4 | 2005-01-05 |
+|   4 | suraj   | Manager      |     0 | 2002-01-01 |
+|   5 | mehul   | Asst Manager |     4 | 2003-01-10 |
++-----+---------+--------------+-------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select b.Eno as emp_num , b.Ename as emp_name , year(b.DOJ) as joining_year,
+    -> b1.Eno as Manager_num , b1.Ename as Manager_name , year(b1.DOJ) as manager_joining_year
+    -> from business b join business b1
+    -> on
+    -> b.MgrNO = b1.Eno;
++---------+----------+--------------+-------------+--------------+----------------------+
+| emp_num | emp_name | joining_year | Manager_num | Manager_name | manager_joining_year |
++---------+----------+--------------+-------------+--------------+----------------------+
+|       1 | Ajay     |         2003 |           4 | suraj        |                 2002 |
+|       2 | omkaran  |         2004 |           3 | pawan        |                 2005 |
+|       3 | pawan    |         2005 |           4 | suraj        |                 2002 |
+|       5 | mehul    |         2003 |           4 | suraj        |                 2002 |
++---------+----------+--------------+-------------+--------------+----------------------+
+4 rows in set (0.00 sec)
+
+mysql> select b.Eno as emp_num , b.Ename as emp_name , year(b.DOJ) as joining_year,
+    -> b1.Eno as Manager_num , b1.Ename as Manager_name , year(b1.DOJ) as manager_joining_year
+    -> from business b join business b1
+    -> on
+    -> b.MgrNO = b1.Eno and year(b.doj < b1.doj);
+Empty set, 1 warning (0.00 sec)
+
+mysql> select b.Eno as emp_num , b.Ename as emp_name , year(b.DOJ) as joining_year,
+    -> b1.Eno as Manager_num , b1.Ename as Manager_name , year(b1.DOJ) as manager_joining_year
+    -> from business b join business b1
+    -> on
+    -> b.MgrNO = b1.Eno and year(b.doj) < year(b1.doj);
++---------+----------+--------------+-------------+--------------+----------------------+
+| emp_num | emp_name | joining_year | Manager_num | Manager_name | manager_joining_year |
++---------+----------+--------------+-------------+--------------+----------------------+
+|       2 | omkaran  |         2004 |           3 | pawan        |                 2005 |
++---------+----------+--------------+-------------+--------------+----------------------+
+1 row in set (0.00 sec)
+
+mysql>

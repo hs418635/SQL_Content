@@ -1,0 +1,163 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 75
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ddl_commands       |
+| dml_commands       |
+| information_schema |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+9 rows in set (0.01 sec)
+
+mysql> use operators;
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_operators |
++---------------------+
+| emp                 |
+| user1               |
+| user2               |
++---------------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from user1;
++------+--------+---------+--------+------------+--------+
+| id   | name   | MOB     | city   | occupation | salary |
++------+--------+---------+--------+------------+--------+
+|    1 | king   |  825635 | delhi  | Teacher    | 90000  |
+|    2 | parag  |  936514 | noida  | buisiness  | 8000   |
+|    3 | virat  |  828745 | patna  | service    | 80000  |
+|    4 | rohit  |  956856 | indore | doctor     | 10000  |
+|    5 | shivam | 5695840 | bhopal | polic      | 500    |
++------+--------+---------+--------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from user2;
++------+-----------+----------+----------+------------+--------+
+| id   | Cust_name | Cust_MOB | city     | occupation | salary |
++------+-----------+----------+----------+------------+--------+
+|    1 | bhuvi     |   512405 | delhi    | Teacher    | 90000  |
+|    2 | sikhar    |   936514 | noida    | buisiness  | 8000   |
+|    3 | virat     |   828745 | patna    | dealer     | 60000  |
+|    4 | rohit     |   956856 | jabalpur | doctor     | 10000  |
+|    5 | hritik    |  5695840 | goa      | driver     | 52000  |
++------+-----------+----------+----------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from user1
+    -> union all
+    -> select * from user2;
++------+--------+---------+----------+------------+--------+
+| id   | name   | MOB     | city     | occupation | salary |
++------+--------+---------+----------+------------+--------+
+|    1 | king   |  825635 | delhi    | Teacher    | 90000  |
+|    2 | parag  |  936514 | noida    | buisiness  | 8000   |
+|    3 | virat  |  828745 | patna    | service    | 80000  |
+|    4 | rohit  |  956856 | indore   | doctor     | 10000  |
+|    5 | shivam | 5695840 | bhopal   | polic      | 500    |
+|    1 | bhuvi  |  512405 | delhi    | Teacher    | 90000  |
+|    2 | sikhar |  936514 | noida    | buisiness  | 8000   |
+|    3 | virat  |  828745 | patna    | dealer     | 60000  |
+|    4 | rohit  |  956856 | jabalpur | doctor     | 10000  |
+|    5 | hritik | 5695840 | goa      | driver     | 52000  |
++------+--------+---------+----------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select name from user1
+    -> union all
+    -> select cust_name from user2;
++--------+
+| name   |
++--------+
+| king   |
+| parag  |
+| virat  |
+| rohit  |
+| shivam |
+| bhuvi  |
+| sikhar |
+| virat  |
+| rohit  |
+| hritik |
++--------+
+10 rows in set (0.00 sec)
+
+mysql> select * from user1
+    -> union
+    -> select * from user2;
++------+--------+---------+----------+------------+--------+
+| id   | name   | MOB     | city     | occupation | salary |
++------+--------+---------+----------+------------+--------+
+|    1 | king   |  825635 | delhi    | Teacher    | 90000  |
+|    2 | parag  |  936514 | noida    | buisiness  | 8000   |
+|    3 | virat  |  828745 | patna    | service    | 80000  |
+|    4 | rohit  |  956856 | indore   | doctor     | 10000  |
+|    5 | shivam | 5695840 | bhopal   | polic      | 500    |
+|    1 | bhuvi  |  512405 | delhi    | Teacher    | 90000  |
+|    2 | sikhar |  936514 | noida    | buisiness  | 8000   |
+|    3 | virat  |  828745 | patna    | dealer     | 60000  |
+|    4 | rohit  |  956856 | jabalpur | doctor     | 10000  |
+|    5 | hritik | 5695840 | goa      | driver     | 52000  |
++------+--------+---------+----------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select name,city from user1
+    -> union
+    -> select cust_name,city from user2;
++--------+----------+
+| name   | city     |
++--------+----------+
+| king   | delhi    |
+| parag  | noida    |
+| virat  | patna    |
+| rohit  | indore   |
+| shivam | bhopal   |
+| bhuvi  | delhi    |
+| sikhar | noida    |
+| rohit  | jabalpur |
+| hritik | goa      |
++--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select name from user1
+    -> union
+    -> select name,city from user1
+    -> select name,city from u;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select name,city from u' at line 4
+mysql> select name from user1
+    -> union
+    -> select cust_name from user2;
++--------+
+| name   |
++--------+
+| king   |
+| parag  |
+| virat  |
+| rohit  |
+| shivam |
+| bhuvi  |
+| sikhar |
+| hritik |
++--------+
+8 rows in set (0.00 sec)
+
+mysql>

@@ -1,0 +1,151 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 30
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+12 rows in set (0.01 sec)
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_joins |
++-----------------+
+| city            |
+| dept            |
+| student         |
+| teacher         |
++-----------------+
+4 rows in set (0.01 sec)
+
+mysql> select * from teacher;
+Empty set (0.00 sec)
+
+mysql> select * from student;
++----+----------+------------+------+--------+------+
+| id | name     | percentage | age  | gender | city |
++----+----------+------------+------+--------+------+
+|  1 | krishna  |         50 |   65 | M      |    1 |
+|  2 | Parthiv  |         90 |    6 | F      |    2 |
+|  3 | Arijit   |         80 |    5 | M      |    3 |
+|  4 | Amaan    |         70 |   35 | F      |    1 |
+|  5 | Suryansh |         50 |   45 | M      |    3 |
+|  6 | vijay    |         20 |   75 | F      |    1 |
+|  7 | ajay     |         10 |   85 | M      |    2 |
+|  8 | sekhar   |         60 |   25 | F      |    1 |
++----+----------+------------+------+--------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from city;
++---------+-----------+
+| city_id | city_name |
++---------+-----------+
+|       1 | banglore  |
+|       2 | jabalpur  |
+|       3 | indore    |
+|       4 | pune      |
+|       5 | delhi     |
++---------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from student s inner join city c
+    -> on s.city = c.city_id;
++----+----------+------------+------+--------+------+---------+-----------+
+| id | name     | percentage | age  | gender | city | city_id | city_name |
++----+----------+------------+------+--------+------+---------+-----------+
+|  1 | krishna  |         50 |   65 | M      |    1 |       1 | banglore  |
+|  2 | Parthiv  |         90 |    6 | F      |    2 |       2 | jabalpur  |
+|  3 | Arijit   |         80 |    5 | M      |    3 |       3 | indore    |
+|  4 | Amaan    |         70 |   35 | F      |    1 |       1 | banglore  |
+|  5 | Suryansh |         50 |   45 | M      |    3 |       3 | indore    |
+|  6 | vijay    |         20 |   75 | F      |    1 |       1 | banglore  |
+|  7 | ajay     |         10 |   85 | M      |    2 |       2 | jabalpur  |
+|  8 | sekhar   |         60 |   25 | F      |    1 |       1 | banglore  |
++----+----------+------------+------+--------+------+---------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> select count(id) as total_student, city_name from student s inner join city c
+    -> on s.city = c.city_id
+    -> group by city_name;
++---------------+-----------+
+| total_student | city_name |
++---------------+-----------+
+|             4 | banglore  |
+|             2 | jabalpur  |
+|             2 | indore    |
++---------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select count(id) as total_student, city_name from student s inner join city c
+    -> on s.city = c.city_id
+    -> group by city_name
+    -> order by city_name;
++---------------+-----------+
+| total_student | city_name |
++---------------+-----------+
+|             4 | banglore  |
+|             2 | indore    |
+|             2 | jabalpur  |
++---------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select count(id) as total_student,percentage, city_name from student s inner join city c
+    -> on s.city = c.city_id
+    -> group by percentage,city_name
+    -> having percentage>30
+    -> order by percentage;
++---------------+------------+-----------+
+| total_student | percentage | city_name |
++---------------+------------+-----------+
+|             1 |         50 | banglore  |
+|             1 |         50 | indore    |
+|             1 |         60 | banglore  |
+|             1 |         70 | banglore  |
+|             1 |         80 | indore    |
+|             1 |         90 | jabalpur  |
++---------------+------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select count(id) as total_student,percentage, city_name from student s inner join city c
+    -> on s.city = c.city_id
+    -> group by percentage,city_name
+    -> having percentage>30
+    -> order by city_name;
++---------------+------------+-----------+
+| total_student | percentage | city_name |
++---------------+------------+-----------+
+|             1 |         50 | banglore  |
+|             1 |         70 | banglore  |
+|             1 |         60 | banglore  |
+|             1 |         80 | indore    |
+|             1 |         50 | indore    |
+|             1 |         90 | jabalpur  |
++---------------+------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql>

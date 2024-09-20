@@ -1,0 +1,236 @@
+All joins ( inner join , equijoin , non- equijoin , natural join , cross join , left outer join , right outer join , full outer join )
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+12 rows in set (0.00 sec)
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| business           |
+| city               |
+| class              |
+| class_info         |
+| college            |
+| dept               |
+| library_department |
+| personal           |
+| professional       |
+| student            |
+| teacher            |
++--------------------+
+11 rows in set (0.00 sec)
+
+mysql> select * from personal;
++----+--------------+--------------+----------+
+| id | name         | address      | contact  |
++----+--------------+--------------+----------+
+|  1 | John Doe     | 123 Main St  | 555-1212 |
+|  2 | Jane Smith   | 456 Elm St   | 555-2323 |
+|  3 | Bob Johnson  | 789 Oak St   | 555-3434 |
+|  4 | Alice Brown  | 101 Park Ave | 555-4545 |
+|  5 | David Miller | 202 Pine St  | 555-5656 |
+|  6 | Emily Davis  | 303 Maple St | 555-6767 |
++----+--------------+--------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from professional;
++----+----------------------+------------+
+| id | work                 | department |
++----+----------------------+------------+
+|  1 | Software Engineer    | IT         |
+|  2 | Marketing Manager    | Marketing  |
+|  3 | Accountant           | Finance    |
+|  4 | Graphic Designer     | Creative   |
+|  5 | Sales Representative | Sales      |
++----+----------------------+------------+
+5 rows in set (0.00 sec)
+
+1) Inner join 
+
+mysql> select name , address , work from personal p inner join professional p1
+    -> on p.id = p1.id;
++--------------+--------------+----------------------+
+| name         | address      | work                 |
++--------------+--------------+----------------------+
+| John Doe     | 123 Main St  | Software Engineer    |
+| Jane Smith   | 456 Elm St   | Marketing Manager    |
+| Bob Johnson  | 789 Oak St   | Accountant           |
+| Alice Brown  | 101 Park Ave | Graphic Designer     |
+| David Miller | 202 Pine St  | Sales Representative |
++--------------+--------------+----------------------+
+5 rows in set (0.00 sec)
+
+
+
+2 ) equi-join
+
+mysql> select name , address , work from personal p , professional p1
+    -> where
+    -> p.id = p1.id;
++--------------+--------------+----------------------+
+| name         | address      | work                 |
++--------------+--------------+----------------------+
+| John Doe     | 123 Main St  | Software Engineer    |
+| Jane Smith   | 456 Elm St   | Marketing Manager    |
+| Bob Johnson  | 789 Oak St   | Accountant           |
+| Alice Brown  | 101 Park Ave | Graphic Designer     |
+| David Miller | 202 Pine St  | Sales Representative |
++--------------+--------------+----------------------+
+5 rows in set (0.00 sec)
+
+
+3 ) natural join 
+
+mysql> select name , address , work from personal p natural join professional p1
+    -> ;
++--------------+--------------+----------------------+
+| name         | address      | work                 |
++--------------+--------------+----------------------+
+| John Doe     | 123 Main St  | Software Engineer    |
+| Jane Smith   | 456 Elm St   | Marketing Manager    |
+| Bob Johnson  | 789 Oak St   | Accountant           |
+| Alice Brown  | 101 Park Ave | Graphic Designer     |
+| David Miller | 202 Pine St  | Sales Representative |
++--------------+--------------+----------------------+
+5 rows in set (0.00 sec)
+
+
+
+4 ) Non - equi-join
+
+mysql> select name , address , work from personal p , professional p1
+    -> where
+    -> p.id < p1.id;
++-------------+--------------+----------------------+
+| name        | address      | work                 |
++-------------+--------------+----------------------+
+| John Doe    | 123 Main St  | Marketing Manager    |
+| John Doe    | 123 Main St  | Accountant           |
+| Jane Smith  | 456 Elm St   | Accountant           |
+| John Doe    | 123 Main St  | Graphic Designer     |
+| Jane Smith  | 456 Elm St   | Graphic Designer     |
+| Bob Johnson | 789 Oak St   | Graphic Designer     |
+| John Doe    | 123 Main St  | Sales Representative |
+| Jane Smith  | 456 Elm St   | Sales Representative |
+| Bob Johnson | 789 Oak St   | Sales Representative |
+| Alice Brown | 101 Park Ave | Sales Representative |
++-------------+--------------+----------------------+
+10 rows in set (0.00 sec)
+
+
+
+5 ) Cross- Join 
+
+mysql> select name , address , work from personal p cross join professional p1;
++--------------+--------------+----------------------+
+| name         | address      | work                 |
++--------------+--------------+----------------------+
+| John Doe     | 123 Main St  | Sales Representative |
+| John Doe     | 123 Main St  | Graphic Designer     |
+| John Doe     | 123 Main St  | Accountant           |
+| John Doe     | 123 Main St  | Marketing Manager    |
+| John Doe     | 123 Main St  | Software Engineer    |
+| Jane Smith   | 456 Elm St   | Sales Representative |
+| Jane Smith   | 456 Elm St   | Graphic Designer     |
+| Jane Smith   | 456 Elm St   | Accountant           |
+| Jane Smith   | 456 Elm St   | Marketing Manager    |
+| Jane Smith   | 456 Elm St   | Software Engineer    |
+| Bob Johnson  | 789 Oak St   | Sales Representative |
+| Bob Johnson  | 789 Oak St   | Graphic Designer     |
+| Bob Johnson  | 789 Oak St   | Accountant           |
+| Bob Johnson  | 789 Oak St   | Marketing Manager    |
+| Bob Johnson  | 789 Oak St   | Software Engineer    |
+| Alice Brown  | 101 Park Ave | Sales Representative |
+| Alice Brown  | 101 Park Ave | Graphic Designer     |
+| Alice Brown  | 101 Park Ave | Accountant           |
+| Alice Brown  | 101 Park Ave | Marketing Manager    |
+| Alice Brown  | 101 Park Ave | Software Engineer    |
+| David Miller | 202 Pine St  | Sales Representative |
+| David Miller | 202 Pine St  | Graphic Designer     |
+| David Miller | 202 Pine St  | Accountant           |
+| David Miller | 202 Pine St  | Marketing Manager    |
+| David Miller | 202 Pine St  | Software Engineer    |
+| Emily Davis  | 303 Maple St | Sales Representative |
+| Emily Davis  | 303 Maple St | Graphic Designer     |
+| Emily Davis  | 303 Maple St | Accountant           |
+| Emily Davis  | 303 Maple St | Marketing Manager    |
+| Emily Davis  | 303 Maple St | Software Engineer    |
++--------------+--------------+----------------------+
+30 rows in set (0.00 sec)
+
+
+
+Outer-join
+
+6 ) left - outer join
+
+mysql> select * from personal p left join professional p1
+    -> on p.id = p1.id;
++----+--------------+--------------+----------+------+----------------------+------------+
+| id | name         | address      | contact  | id   | work                 | department |
++----+--------------+--------------+----------+------+----------------------+------------+
+|  1 | John Doe     | 123 Main St  | 555-1212 |    1 | Software Engineer    | IT         |
+|  2 | Jane Smith   | 456 Elm St   | 555-2323 |    2 | Marketing Manager    | Marketing  |
+|  3 | Bob Johnson  | 789 Oak St   | 555-3434 |    3 | Accountant           | Finance    |
+|  4 | Alice Brown  | 101 Park Ave | 555-4545 |    4 | Graphic Designer     | Creative   |
+|  5 | David Miller | 202 Pine St  | 555-5656 |    5 | Sales Representative | Sales      |
+|  6 | Emily Davis  | 303 Maple St | 555-6767 | NULL | NULL                 | NULL       |
++----+--------------+--------------+----------+------+----------------------+------------+
+6 rows in set (0.00 sec)
+
+
+
+7 ) Right outer join
+
+mysql> select * from personal p right join professional p1
+    -> on p.id = p1.id;
++------+--------------+--------------+----------+----+----------------------+------------+
+| id   | name         | address      | contact  | id | work                 | department |
++------+--------------+--------------+----------+----+----------------------+------------+
+|    1 | John Doe     | 123 Main St  | 555-1212 |  1 | Software Engineer    | IT         |
+|    2 | Jane Smith   | 456 Elm St   | 555-2323 |  2 | Marketing Manager    | Marketing  |
+|    3 | Bob Johnson  | 789 Oak St   | 555-3434 |  3 | Accountant           | Finance    |
+|    4 | Alice Brown  | 101 Park Ave | 555-4545 |  4 | Graphic Designer     | Creative   |
+|    5 | David Miller | 202 Pine St  | 555-5656 |  5 | Sales Representative | Sales      |
++------+--------------+--------------+----------+----+----------------------+------------+
+5 rows in set (0.00 sec)
+
+
+8 ) Full - outer join
+
+mysql> ( select * from personal p left join professional p1  on p.id = p1.id )
+    -> union
+    -> ( select * from personal p right join professional p1  on p.id = p1.id )
+    -> ;
++------+--------------+--------------+----------+------+----------------------+------------+
+| id   | name         | address      | contact  | id   | work                 | department |
++------+--------------+--------------+----------+------+----------------------+------------+
+|    1 | John Doe     | 123 Main St  | 555-1212 |    1 | Software Engineer    | IT         |
+|    2 | Jane Smith   | 456 Elm St   | 555-2323 |    2 | Marketing Manager    | Marketing  |
+|    3 | Bob Johnson  | 789 Oak St   | 555-3434 |    3 | Accountant           | Finance    |
+|    4 | Alice Brown  | 101 Park Ave | 555-4545 |    4 | Graphic Designer     | Creative   |
+|    5 | David Miller | 202 Pine St  | 555-5656 |    5 | Sales Representative | Sales      |
+|    6 | Emily Davis  | 303 Maple St | 555-6767 | NULL | NULL                 | NULL       |
++------+--------------+--------------+----------+------+----------------------+------------+
+6 rows in set (0.00 sec)
+
+mysql>

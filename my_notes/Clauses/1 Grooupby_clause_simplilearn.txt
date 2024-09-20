@@ -1,0 +1,210 @@
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| information_schema |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+10 rows in set (0.05 sec)
+
+mysql> use clauses;
+Database changed
+mysql> select * from employees;
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+| emp_id | emp_name        | age  | gender | doj        | dept      | city        | salary   |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+|      1 | John Doe        |   30 | Male   | 2020-01-01 | IT        | New York    | 60000.00 |
+|      2 | Jane Smith      |   15 | Female | 2019-03-15 | HR        | Ahmadabad   | 55000.00 |
+|      5 | steve Smith     |   10 | Female | 2019-03-16 | marketing | Los Angeles | 55000.00 |
+|      8 | Rohit sharma    |   25 | Female | 2019-03-15 | Sales     | Mumbai      | 55000.00 |
+|     10 | bumrah          |   15 | Female | 2019-10-15 | marketing | Los Angeles | 35000.00 |
+|     15 | virat kohli     |   25 | Male   | 2019-04-13 | HR        | Los Angeles | 55000.00 |
+|     19 | md shami        |   30 | Male   | 2019-03-05 | media     | Banglore    |  5000.00 |
+|     20 | rohit sharma    |   26 | Male   | 2019-03-11 | Medical   | Delhi       | 12000.00 |
+|     25 | bhuvi           |   90 | Female | 2019-07-15 | Sales     | Bhopal      | 90000.00 |
+|     30 | Jane Smith      |   50 | Male   | 2019-03-05 | Sales     | Los Angeles | 85000.00 |
+|     35 | siraj           |   35 | Male   | 2019-03-20 | HR        | Los Angeles |  9500.00 |
+|     38 | mitchel Johnson |   32 | Female | 2021-10-10 | Finance   | Indore      | 70000.00 |
+|     40 | kedar jadav     |  100 | Male   | 2019-08-25 | marketing | Indore      | 25000.00 |
+|     62 | virat kohli     |   28 | Female | 2019-06-15 | HR        | Mumbai      | 12000.00 |
++--------+-----------------+------+--------+------------+-----------+-------------+----------+
+14 rows in set (0.00 sec)
+
+mysql> alter table employees rename to emp2;
+Query OK, 0 rows affected (0.05 sec)
+
+
+mysql> select distinct(emp_name) from emp2;
++-----------------+
+| emp_name        |
++-----------------+
+| John Doe        |
+| Jane Smith      |
+| steve Smith     |
+| Rohit sharma    |
+| bumrah          |
+| virat kohli     |
+| md shami        |
+| bhuvi           |
+| siraj           |
+| mitchel Johnson |
+| kedar jadav     |
++-----------------+
+11 rows in set (0.00 sec)
+
+mysql> select avg(age) from emp2;
++----------+
+| avg(age) |
++----------+
+|  36.5000 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> -- now we will find the avg age in each department
+
+mysql> select dept, avg(age) as average_age from emp2 group by dept;
++-----------+-------------+
+| dept      | average_age |
++-----------+-------------+
+| IT        |     30.0000 |
+| HR        |     25.7500 |
+| marketing |     41.6667 |
+| Sales     |     55.0000 |
+| media     |     30.0000 |
+| Medical   |     26.0000 |
+| Finance   |     32.0000 |
++-----------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select dept, sum(age) as Total_age from emp2 group by dept;
++-----------+-------------+
+| dept      |  Total_age  |
++-----------+-------------+
+| IT        |          30 |
+| HR        |         103 |
+| marketing |         125 |
+| Sales     |         165 |
+| media     |          30 |
+| Medical   |          26 |
+| Finance   |          32 |
++-----------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select dept, round(avg(age),1) as average_age from emp2 group by dept;
++-----------+-------------+
+| dept      | average_age |
++-----------+-------------+
+| IT        |        30.0 |
+| HR        |        25.8 |
+| marketing |        41.7 |
+| Sales     |        55.0 |
+| media     |        30.0 |
+| Medical   |        26.0 |
+| Finance   |        32.0 |
++-----------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> -- now we will find salary of employees for each department
+mysql> select dept, round(sum(salary)) as total_salary from emp2 group by dept;
++-----------+--------------+
+| dept      | total_salary |
++-----------+--------------+
+| IT        |        60000 |
+| HR        |       131500 |
+| marketing |       115000 |
+| Sales     |       230000 |
+| media     |         5000 |
+| Medical   |        12000 |
+| Finance   |        70000 |
++-----------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> -- order by clause with group by clause
+mysql> --find total number of employees in each city and group it , in the order of employee id
+
+mysql> select count(emp_id) as total_employees, city from emp2
+    -> group by city
+    -> order by count(emp_id) desc;
++-----------------+-------------+
+| total_employees | city        |
++-----------------+-------------+
+|               5 | Los Angeles |
+|               2 | Mumbai      |
+|               2 | Indore      |
+|               1 | New York    |
+|               1 | Ahmadabad   |
+|               1 | Banglore    |
+|               1 | Delhi       |
+|               1 | Bhopal      |
++-----------------+-------------+
+8 rows in set (0.00 sec)
+
+mysql> select count(emp_id) as total_employees, city from emp2
+    -> group by city;
++-----------------+-------------+
+| total_employees | city        |
++-----------------+-------------+
+|               1 | New York    |
+|               1 | Ahmadabad   |
+|               5 | Los Angeles |
+|               2 | Mumbai      |
+|               1 | Banglore    |
+|               1 | Delhi       |
+|               1 | Bhopal      |
+|               2 | Indore      |
++-----------------+-------------+
+8 rows in set (0.00 sec)
+
+mysql> select count(emp_id) as total_employees, city from emp2
+    -> group by city
+    -> order by count(emp_id);
++-----------------+-------------+
+| total_employees | city        |
++-----------------+-------------+
+|               1 | New York    |
+|               1 | Ahmadabad   |
+|               1 | Banglore    |
+|               1 | Delhi       |
+|               1 | Bhopal      |
+|               2 | Mumbai      |
+|               2 | Indore      |
+|               5 | Los Angeles |
++-----------------+-------------+
+8 rows in set (0.00 sec)
+
+
+mysql> -- Find the number of employees that join the company each year , we can use the year() function on
+mysql> -- date of joining column and count the employee id's and group the result by each year
+mysql> select count(emp_id) as total_employees , year(doj) as year from emp2
+    -> group by year(doj);
++-----------------+------+
+| total_employees | year |
++-----------------+------+
+|               1 | 2020 |
+|              12 | 2019 |
+|               1 | 2021 |
++-----------------+------+
+3 rows in set (0.00 sec)
+
+mysql> select count(emp_id) as total_employees , year(doj) as year from emp2
+    -> group by year(doj)
+    -> order by year(doj);
++-----------------+------+
+| total_employees | year |
++-----------------+------+
+|              12 | 2019 |
+|               1 | 2020 |
+|               1 | 2021 |
++-----------------+------+
+3 rows in set (0.00 sec)
+
+mysql> -- we can also use the group by to join two or more tables together

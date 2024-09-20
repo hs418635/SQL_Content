@@ -1,0 +1,89 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| adv                |
+| clauses            |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| performance_schema |
+| python             |
+| storedp            |
+| string_operation   |
+| sys                |
++--------------------+
+12 rows in set (0.00 sec)
+
+mysql> create database DML;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use DML;
+Database changed
+mysql> create table student(id varchar(10) primary key , name varchar(50) not null ,
+    ->                      email_id varchar(50) unique , age int check (age>=18) ,
+    ->                      city varchar(50) default 'indore' , physics_score float ,
+    ->                      chemistry_score double, mathematics_score decimal);
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> describe student;
++-------------------+---------------+------+-----+---------+-------+
+| Field             | Type          | Null | Key | Default | Extra |
++-------------------+---------------+------+-----+---------+-------+
+| id                | varchar(10)   | NO   | PRI | NULL    |       |
+| name              | varchar(50)   | NO   |     | NULL    |       |
+| email_id          | varchar(50)   | YES  | UNI | NULL    |       |
+| age               | int           | YES  |     | NULL    |       |
+| city              | varchar(50)   | YES  |     | indore  |       |
+| physics_score     | float         | YES  |     | NULL    |       |
+| chemistry_score   | double        | YES  |     | NULL    |       |
+| mathematics_score | decimal(10,0) | YES  |     | NULL    |       |
++-------------------+---------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> insert into student
+    -> values
+    -> ('D01', 'Virat','virat@gmail.com',30,'bhopal',60.12345678987654321,50.12345678987654321,90.12345678987654321);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from student;
++-----+-------+-----------------+------+--------+---------------+-------------------+-------------------+
+| id  | name  | email_id        | age  | city   | physics_score | chemistry_score   | mathematics_score |
++-----+-------+-----------------+------+--------+---------------+-------------------+-------------------+
+| D01 | Virat | virat@gmail.com |   30 | bhopal |       60.1235 | 50.12345678987654 |                90 |
++-----+-------+-----------------+------+--------+---------------+-------------------+-------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into student
+    -> values
+    -> ('D02', 'rohit','rohit@gmail.com',30,'bhopal',60.12345678987654321,50.12345678987654321,90.12345678987654321);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from student;
++-----+-------+-----------------+------+--------+---------------+-------------------+-------------------+
+| id  | name  | email_id        | age  | city   | physics_score | chemistry_score   | mathematics_score |
++-----+-------+-----------------+------+--------+---------------+-------------------+-------------------+
+| D01 | Virat | virat@gmail.com |   30 | bhopal |       60.1235 | 50.12345678987654 |                90 |
+| D02 | rohit | rohit@gmail.com |   30 | bhopal |       60.1235 | 50.12345678987654 |                90 |
++-----+-------+-----------------+------+--------+---------------+-------------------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into student
+    -> (id,name,email_id,age,physics_score,chemistry_score,mathematics_score)
+    -> values
+    -> ('D03','Sikhar','sikhar@gmail.com',45,400.50,450.60,300);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++-----+--------+------------------+------+--------+---------------+-------------------+-------------------+
+| id  | name   | email_id         | age  | city   | physics_score | chemistry_score   | mathematics_score |
++-----+--------+------------------+------+--------+---------------+-------------------+-------------------+
+| D01 | Virat  | virat@gmail.com  |   30 | bhopal |       60.1235 | 50.12345678987654 |                90 |
+| D02 | rohit  | rohit@gmail.com  |   30 | bhopal |       60.1235 | 50.12345678987654 |                90 |
+| D03 | Sikhar | sikhar@gmail.com |   45 | indore |         400.5 |             450.6 |               300 |
++-----+--------+------------------+------+--------+---------------+-------------------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql>

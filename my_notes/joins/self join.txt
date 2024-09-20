@@ -1,0 +1,289 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+12 rows in set (0.01 sec)
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| city               |
+| class              |
+| class_info         |
+| college            |
+| dept               |
+| library_department |
+| student            |
+| teacher            |
++--------------------+
+8 rows in set (0.01 sec)
+
+mysql> create table business ( Eno int primary key auto_increment , Ename varchar(20) , job varchar( 30) , MgrNo int);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> insert into business
+    -> values
+    -> (1,"Raj","Clerk",4),
+    -> (2,"Ram","sales Representative",3),
+    -> (3,"Rajesh","Accountant",4),
+    -> (4,"Ramesh","Accountant",),
+    -> (4,"Ramesh","Accountant",4),^C
+mysql> insert into business
+    -> values
+    -> (1,"Raj","Clerk",4),
+    -> (2,"Ram","sales Representative",3),
+    -> (3,"Rajesh","Accountant",4),
+    -> (4,"Ramesh","Manager",),
+    -> (5,"Rahat","Asst Manager",4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '),
+(5,"Rahat","Asst Manager",4)' at line 6
+mysql> select * from business;
++-----+--------+----------------------+-------+
+| Eno | Ename  | job                  | MgrNo |
++-----+--------+----------------------+-------+
+|   1 | Raj    | Clerk                |     4 |
+|   2 | Ram    | sales Representative |     3 |
+|   3 | Rajesh | Accountant           |     4 |
+|   4 | Ramesh | Manager              |     0 |
+|   5 | Rahat  | Asst Manager         |     4 |
++-----+--------+----------------------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select b.Ename,b1.Ename as Manager from business b , business b1
+    -> self join
+    -> b.Eno = b1.MgrNo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'self join
+b.Eno = b1.MgrNo' at line 2
+mysql> select b.Ename,b1.Ename as Manager from business b , business b1
+    -> join
+    -> b.Eno = b1.MgrNo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= b1.MgrNo' at line 3
+mysql> select b.Ename,b1.Ename as Manager from business b join business b1
+    -> on
+    -> b.Eno = b1.MgrNo;
++--------+---------+
+| Ename  | Manager |
++--------+---------+
+| Ramesh | Raj     |
+| Rajesh | Ram     |
+| Ramesh | Rajesh  |
+| Ramesh | Rahat   |
++--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select b.Ename,b1.Ename as Manager from business b , business b1
+    -> on
+    -> b1.Eno = b.MgrNo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on
+b1.Eno = b.MgrNo' at line 2
+mysql> select b.enmae as Emp_name , b1.ename as manager_name
+    -> from business b , business b1
+    -> where
+    -> b.mgrno = b1.eno;
+ERROR 1054 (42S22): Unknown column 'b.enmae' in 'field list'
+mysql> select b.ename as Emp_name , b1.ename as manager_name
+    -> from business b , business b1
+    -> where
+    -> b.mgrno = b1.eno;
++----------+--------------+
+| Emp_name | manager_name |
++----------+--------------+
+| Raj      | Ramesh       |
+| Ram      | Rajesh       |
+| Rajesh   | Ramesh       |
+| Rahat    | Ramesh       |
++----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select b.enmae as Emp_name , b1.ename as manager_name
+    -> from business b , business b1^C
+mysql> select b.ename as Emp_name , b1.ename as manager_name
+    -> from business b , business b1
+    -> join
+    -> b.mgrno = b1.eno;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= b1.eno' at line 4
+mysql> select b.ename as Emp_name , b1.ename as manager_name from business b join business b1
+    -> on
+    -> b.mgrno = b1.eno;
++----------+--------------+
+| Emp_name | manager_name |
++----------+--------------+
+| Raj      | Ramesh       |
+| Ram      | Rajesh       |
+| Rajesh   | Ramesh       |
+| Rahat    | Ramesh       |
++----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table business add DOJ date;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into business DOJ
+    -> values
+    -> (2003-12-12),
+    -> (2004-12-10),
+    -> (2005-01-05),
+    -> (2002-01-01),
+    -> (2003-01-10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DOJ
+values
+(2003-12-12),
+(2004-12-10),
+(2005-01-05),
+(2002-01-01),
+(2003-01-10)' at line 1
+mysql> insert into business
+    -> (DOJ)
+    -> values
+    -> (2003-12-12),
+    -> (2004-12-10),
+    -> (2005-01-05),
+    -> (2002-01-01),
+    -> (2003-01-10);
+ERROR 1292 (22007): Incorrect date value: '1979' for column 'DOJ' at row 1
+mysql> describe business;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| Eno   | int         | NO   | PRI | NULL    | auto_increment |
+| Ename | varchar(20) | YES  |     | NULL    |                |
+| job   | varchar(30) | YES  |     | NULL    |                |
+| MgrNo | int         | YES  |     | NULL    |                |
+| DOJ   | date        | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into business
+    -> (DOJ)
+    -> values
+    -> (12-12-2003),
+    -> (10-12-2004),
+    -> (05-01-2005),
+    -> (01-01-2002),
+    -> (10-01-2003);
+ERROR 1292 (22007): Incorrect date value: '-2003' for column 'DOJ' at row 1
+mysql> insert into business
+    -> (DOJ)
+    -> values
+    -> ("2003-12-12"),
+    -> ("2004-12-10"),
+    -> ("2005-01-05"),
+    -> ("2002-01-01"),
+    -> ("2003-01-10");
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from business;
++-----+--------+----------------------+-------+------------+
+| Eno | Ename  | job                  | MgrNo | DOJ        |
++-----+--------+----------------------+-------+------------+
+|   1 | Raj    | Clerk                |     4 | NULL       |
+|   2 | Ram    | sales Representative |     3 | NULL       |
+|   3 | Rajesh | Accountant           |     4 | NULL       |
+|   4 | Ramesh | Manager              |     0 | NULL       |
+|   5 | Rahat  | Asst Manager         |     4 | NULL       |
+|   6 | NULL   | NULL                 |  NULL | 2003-12-12 |
+|   7 | NULL   | NULL                 |  NULL | 2004-12-10 |
+|   8 | NULL   | NULL                 |  NULL | 2005-01-05 |
+|   9 | NULL   | NULL                 |  NULL | 2002-01-01 |
+|  10 | NULL   | NULL                 |  NULL | 2003-01-10 |
++-----+--------+----------------------+-------+------------+
+10 rows in set (0.00 sec)
+
+mysql> delete from business where ename is null;
+Query OK, 5 rows affected (0.01 sec)
+
+mysql> select * from business;
++-----+--------+----------------------+-------+------+
+| Eno | Ename  | job                  | MgrNo | DOJ  |
++-----+--------+----------------------+-------+------+
+|   1 | Raj    | Clerk                |     4 | NULL |
+|   2 | Ram    | sales Representative |     3 | NULL |
+|   3 | Rajesh | Accountant           |     4 | NULL |
+|   4 | Ramesh | Manager              |     0 | NULL |
+|   5 | Rahat  | Asst Manager         |     4 | NULL |
++-----+--------+----------------------+-------+------+
+5 rows in set (0.00 sec)
+
+
+mysql> update business
+    -> set DOJ=
+    -> case
+    -> when Eno=1 then "2003-12-12"
+    -> when Eno=2 then "2004-12-10"
+    -> when Eno=3 then "2005-01-05"
+    -> when Eno=4 then "2002-01-01"
+    -> when Eno=5 then "2003-01-10"
+    -> else
+    -> DOJ end
+    -> where eno in (1,2,3,4,5);
+Query OK, 5 rows affected (0.02 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from business;
++-----+--------+----------------------+-------+------------+
+| Eno | Ename  | job                  | MgrNo | DOJ        |
++-----+--------+----------------------+-------+------------+
+|   1 | Raj    | Clerk                |     4 | 2003-12-12 |
+|   2 | Ram    | sales Representative |     3 | 2004-12-10 |
+|   3 | Rajesh | Accountant           |     4 | 2005-01-05 |
+|   4 | Ramesh | Manager              |     0 | 2002-01-01 |
+|   5 | Rahat  | Asst Manager         |     4 | 2003-01-10 |
++-----+--------+----------------------+-------+------------+
+5 rows in set (0.00 sec)
+
+Q ) find the record of those employees who joined the company before their manager
+
+mysql> select b.ename as Emp_name, b1.ename as manager_name from business b join business b1
+    -> on b.mgrno = b1.eno
+    -> ;
++----------+--------------+
+| Emp_name | manager_name |
++----------+--------------+
+| Raj      | Ramesh       |
+| Ram      | Rajesh       |
+| Rajesh   | Ramesh       |
+| Rahat    | Ramesh       |
++----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select b.ename as Emp_name, b1.ename as manager_name from business b join business b1
+    -> on b.mgrno = b1.eno  and b.doj < b1.doj;
++----------+--------------+
+| Emp_name | manager_name |
++----------+--------------+
+| Ram      | Rajesh       |
++----------+--------------+
+1 row in set (0.00 sec)
+
+mysql>

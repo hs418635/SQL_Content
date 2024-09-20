@@ -1,0 +1,180 @@
+
+mysql> create database storedp;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> -- changing delimeter
+mysql> delimiter //
+mysql> -- we have changed the delimiter
+mysql> -- the delimiter is changed for the time till we dont clone the command line client
+mysql> show databases//
++--------------------+
+| Database           |
++--------------------+
+| practice1          |
+| storedp            |
+| string_operation   |
+| sys                |
+| test               |
++--------------------+
+22 rows in set (0.00 sec)
+
+mysql> use storedp//
+Database changed
+
+mysql> -- thats how we can change the delimiter before creating the stored procedure
+mysql> -- if you want to set again default delimiter , yes you can
+
+mysql> delimiter ;
+mysql> show tables ;
+Empty set (0.00 sec)
+mysql> -- see delimeter is changed from // to ; again
+
+mysql> -- now we are creating a stored procedure
+mysql> -- now first of all we will change the delimiter again because we will use semi column inside the stored
+mysql> -- procedure query , and we dont want that query to be executed
+mysql> delimiter $$
+
+
+mysql> create procedure CreateUserTable()
+    -> begin
+    -> create table if not exists user(
+    -> user_id int auto_increment primary key,
+    -> first_name varchar(50),
+    -> last_name varchar(50),
+    -> city varchar(50)
+    -> );
+    -> insert into user
+    -> (first_name , last_name , city)
+    -> values
+    -> ("himanshu","suryavanshi","indore"),
+    -> ("aman","kumar","bhopal");
+    -> select * from user;
+    -> end $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call CreateUserTable()$$
++---------+------------+-------------+--------+
+| user_id | first_name | last_name   | city   |
++---------+------------+-------------+--------+
+|       1 | himanshu   | suryavanshi | indore |
+|       2 | aman       | kumar       | bhopal |
++---------+------------+-------------+--------+
+2 rows in set (0.01 sec)
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> show tables;
++-------------------+
+| Tables_in_storedp |
++-------------------+
+| user              |
++-------------------+
+1 row in set (0.02 sec)
+
+
+mysql> select * from user;
++---------+------------+-------------+--------+
+| user_id | first_name | last_name   | city   |
++---------+------------+-------------+--------+
+|       1 | himanshu   | suryavanshi | indore |
+|       2 | aman       | kumar       | bhopal |
++---------+------------+-------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> -- making new stored procedure to count the values and assigning the variables
+mysql> delimiter //
+mysql> create procedure CountItems()
+    -> begin
+    -> declare total_count int default 0;
+    -> select count(*) into total_count from user;
+    -> select total_count;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call countitems()//
++-------------+
+| total_count |
++-------------+
+|           2 |
++-------------+
+1 row in set (0.01 sec)
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into user values(4,"sikhar","dhawan","delhi")//
+Query OK, 1 row affected (0.01 sec)
+
+mysql> call countitems()//
++-------------+
+| total_count |
++-------------+
+|           3 |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> -- user can call this countitems() and he will get all the counts , we have make procedure of how to count in database server
+mysql> -- parameters IN, OUT , INOUT
+mysql> -- create procedure SelectByLast(IN l_name varchar(50))
+mysql> create procedure SelectByLast(IN l_name varchar(50))
+    -> begin
+    -> select * from user
+    -> where last_name=L_name;
+    -> end//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call selectbylast('suryavanshi')//
++---------+------------+-------------+--------+
+| user_id | first_name | last_name   | city   |
++---------+------------+-------------+--------+
+|       1 | himanshu   | suryavanshi | indore |
++---------+------------+-------------+--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from user//
++---------+------------+-------------+--------+
+| user_id | first_name | last_name   | city   |
++---------+------------+-------------+--------+
+|       1 | himanshu   | suryavanshi | indore |
+|       2 | aman       | kumar       | bhopal |
+|       4 | sikhar     | dhawan      | delhi  |
++---------+------------+-------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> call selectbylast('kumar')//
++---------+------------+-----------+--------+
+| user_id | first_name | last_name | city   |
++---------+------------+-----------+--------+
+|       2 | aman       | kumar     | bhopal |
++---------+------------+-----------+--------+
+1 row in set (0.05 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> -- that procedure which we made above , was for client
+mysql> -- now for developer we are making with out
+mysql> -- we will take value by IN and provide the result in OUT , when client will call he will get result
+mysql> create procedure CountbyLast(IN l_name varchar(50), OUT count_l int )
+    -> begin
+    -> select count(*) into count_l from user where last_name=l_name;
+    -> end//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call CountByLast('dhawan',@CountLast);
+    -> //
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @CountLast//
++------------+
+| @CountLast |
++------------+
+|          1 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> ## for droping the procedure
+mysql> # use ---> drop procedure PROCEDUREname;
+mysql> delimiter ;
+mysql>

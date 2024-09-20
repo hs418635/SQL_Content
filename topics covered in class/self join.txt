@@ -1,0 +1,258 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 31
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+12 rows in set (0.01 sec)
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| business           |
+| city               |
+| class              |
+| class_info         |
+| college            |
+| dept               |
+| library_department |
+| personal           |
+| professional       |
+| student            |
+| teacher            |
++--------------------+
+11 rows in set (0.01 sec)
+
+mysql> select * from personal;
++----+--------------+--------------+----------+
+| id | name         | address      | contact  |
++----+--------------+--------------+----------+
+|  1 | John Doe     | 123 Main St  | 555-1212 |
+|  2 | Jane Smith   | 456 Elm St   | 555-2323 |
+|  3 | Bob Johnson  | 789 Oak St   | 555-3434 |
+|  4 | Alice Brown  | 101 Park Ave | 555-4545 |
+|  5 | David Miller | 202 Pine St  | 555-5656 |
+|  6 | Emily Davis  | 303 Maple St | 555-6767 |
++----+--------------+--------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from professional;
++----+----------------------+------------+
+| id | work                 | department |
++----+----------------------+------------+
+|  1 | Software Engineer    | IT         |
+|  2 | Marketing Manager    | Marketing  |
+|  3 | Accountant           | Finance    |
+|  4 | Graphic Designer     | Creative   |
+|  5 | Sales Representative | Sales      |
++----+----------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select name,work,department from personal p left join professional p1
+    -> on p.id = p1.id;
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
+| Emily Davis  | NULL                 | NULL       |
++--------------+----------------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select name,work,department from personal p rihgt join professional p1 on p.id = p1.id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rihgt join professional p1 on p.id = p1.id' at line 1
+mysql> select name,work,department from personal p right join professional p1 on p.id = p1.id;
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
++--------------+----------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> -- full outer join
+mysql> (select name,work,department from personal p left join professional p1 on p.id = p1.id)
+    -> union
+    -> (select name,work,department from personal p right join professional p1 on p.id = p1.id);
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
+| Emily Davis  | NULL                 | NULL       |
++--------------+----------------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> (select name,work,department from personal p left join professional p1 on p.id = p1.id)
+    -> unon all
+    -> (select name,work,department from personal p left join professional p1 on p.id = p1.id)^C
+mysql> (select name,work,department from personal p left join professional p1 on p.id = p1.id)
+    -> union all
+    -> (select name,work,department from personal p right join professional p1 on p.id = p1.id);
++--------------+----------------------+------------+
+| name         | work                 | department |
++--------------+----------------------+------------+
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
+| Emily Davis  | NULL                 | NULL       |
+| John Doe     | Software Engineer    | IT         |
+| Jane Smith   | Marketing Manager    | Marketing  |
+| Bob Johnson  | Accountant           | Finance    |
+| Alice Brown  | Graphic Designer     | Creative   |
+| David Miller | Sales Representative | Sales      |
++--------------+----------------------+------------+
+11 rows in set (0.00 sec)
+
+mysql> select * from personal
+    -> union
+    -> select * from professional;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| clauses            |
+| ddl_commands       |
+| dml_commands       |
+| duplicate_records  |
+| information_schema |
+| joins              |
+| mysql              |
+| operators          |
+| overall            |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+12 rows in set (0.00 sec)
+
+mysql> use joins;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_joins    |
++--------------------+
+| business           |
+| city               |
+| class              |
+| class_info         |
+| college            |
+| dept               |
+| library_department |
+| personal           |
+| professional       |
+| student            |
+| teacher            |
++--------------------+
+11 rows in set (0.00 sec)
+
+mysql> select * from business;
++-----+---------+--------------+-------+------------+
+| Eno | Ename   | job          | MgrNo | DOJ        |
++-----+---------+--------------+-------+------------+
+|   1 | Ajay    | Data Analyst |     4 | 2003-12-12 |
+|   2 | omkaran | developer    |     3 | 2004-12-10 |
+|   3 | pawan   | Accountant   |     4 | 2005-01-05 |
+|   4 | suraj   | Manager      |     0 | 2002-01-01 |
+|   5 | mehul   | Asst Manager |     4 | 2003-01-10 |
++-----+---------+--------------+-------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select b.ename as Emp_name, b.ename as manager_namefrom business b join business b1
+    -> on b.mgrno = b1.no;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ename as Emp_name, b.ename as manager_namefrom business b join business b1
+on b.' at line 1
+mysql> ename as Emp_name, b.ename as manager_name from business b join business b1
+    -> on b.mgrno = b1.no;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ename as Emp_name, b.ename as manager_name from business b join business b1
+on b' at line 1
+mysql> select ename as Emp_name, b.ename as manager_name from business b join business b1
+    -> on b.mgrno = b1.eno;
+ERROR 1052 (23000): Column 'ename' in field list is ambiguous
+mysql> select ename as Emp_name, b.ename as manager_name from business b join business b1
+    -> on b.mgrno = b1.eno;
+ERROR 1052 (23000): Column 'ename' in field list is ambiguous
+mysql> select ename as Emp_name, b1.ename as manager_name from business b join business b1
+    -> on b.mgrno = b1.eno;
+ERROR 1052 (23000): Column 'ename' in field list is ambiguous
+mysql> select ename as Emp_name, b.ename as manager_name from business b join business b1
+    -> on b.mgrno = b1.eno;
+ERROR 1052 (23000): Column 'ename' in field list is ambiguous
+mysql> select b.ename as Emp_name, b.ename as manager_name from business b join business b1
+    -> on b.mgrno = b1.eno;
++----------+--------------+
+| Emp_name | manager_name |
++----------+--------------+
+| Ajay     | Ajay         |
+| omkaran  | omkaran      |
+| pawan    | pawan        |
+| mehul    | mehul        |
++----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select b.ename as emp_name , b.ename as manager_name from business b  join business b1
+    -> on
+    -> b.mgrno  = b1.Eno;
++----------+--------------+
+| emp_name | manager_name |
++----------+--------------+
+| Ajay     | Ajay         |
+| omkaran  | omkaran      |
+| pawan    | pawan        |
+| mehul    | mehul        |
++----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select b.ename as emp_name , b1.ename as manager_name from business b  join business b1
+    -> on
+    -> b.mgrno  = b1.Eno;
++----------+--------------+
+| emp_name | manager_name |
++----------+--------------+
+| Ajay     | suraj        |
+| omkaran  | pawan        |
+| pawan    | suraj        |
+| mehul    | suraj        |
++----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql>
